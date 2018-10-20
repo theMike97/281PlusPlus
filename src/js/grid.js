@@ -8,7 +8,7 @@ function Grid() {
 	this.gridSize = 20;
 
 	this.draw = function() {
-		stroke(175);
+		stroke(180);
 		let offsetx = origin.x;
 		let offsety = origin.y;
 		while (offsetx < canvas.width) {

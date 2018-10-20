@@ -6,17 +6,15 @@ html, body {
 	overflow: hidden;
 }
 
-p {
-	margin: 0;
-}
-
-.main-wrapper{
-	height: 100vh;
+#main-wrapper{
+	height: 100%;
+	width: 100%;
 	display:grid;
-	grid-template-columns: 1fr  4fr;
+	grid-template-columns: minmax(300px, 1fr) 4fr;
 }
 
 .main-panel {
+	width: 100%;
 	display: grid;
 	grid-template-rows: 50px;
 }
@@ -25,63 +23,111 @@ p {
 	display: grid;
 	grid-template-rows: 70px;
 	text-align: center;
-	background:#eee;
+	color: white;
+	background:#aaa;
 }
 .component-panel > div {
 	padding: 1em;
 }
 #component-label {
 	padding: 0;
+	font-size: 18px;
 	display: inline-block;
-	background: #aaa;
+	background: #111;
 }
 #components {
 	padding: 0em;
-	background: #aaa;
+	background: #111;
 }
 #toolbar{
 	padding: 0em, 1em;
-	background:#aaa;
+	width: 100%;
+	background:#111;
 }
 .toolbar-btn {
-	color: black;
-	background-color: #aaa; 
+	color: #a1a1a1;
+	background-color: #111; 
 	cursor: pointer;
 	height: 100%;
 	width: 100px;
 	border: none;
 	outline: none;
-	font-size: 15px;
+	font-size: 20px;
 }
 .active, .toolbar-btn:hover {
-	background-color: #777;
-	color: white;
+	color: #f1f1f1;
+	transition: 0.3s;
 }
-#debug-btn {
-	float: right;
-}
-
 .collapsible {
-	background-color: #777;
-	color: white;
+	background-color: #111;
+	color: #a1a1a1;
 	cursor: pointer;
 	padding: 1em;
 	width: 100%;
 	border: none;
 	text-align: left;
 	outline: none;
-	font-size: 15px;
+	font-size: 20px;
 }
 .active, .collapsible:hover {
-	background-color: #555;
+	color: #f1f1f1;
+	transition: 0.3s;
 }
 .component-content {
-	background-color: #aaa;
-	padding: 0, 18px;
+	background-color: #111;
+	color: white;
+	padding: 1em;
 	display: none;
+	font-size: 18px;
 	overflow: hidden;
 }
 .component-btn {
 	display: grid;
 	grid-template-rows: 1fr
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.7s;
+    padding-top: 60px;
+    /*padding-right: 1em; */
+}
+
+#nav {
+    text-decoration: none;
+    color: #a1a1a1;
+    display: block;
+    transition: 0.7s;
+}
+
+#nav:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px), (max-width: 1300px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav .closebtn {
+  	font-size: 25px;
+  	top: 10px;
+  }
+  html, body {font-size: 15px;}
+  #component-label {font-size: 15px}
+  .collapsible {font-size: 15px;}
+  .component-content {font-size: 14px;}
+  .toolbar-btn {font-size: 15px;}
 }

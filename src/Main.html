@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>Logic sim and debugger</title>
     <link rel="stylesheet" href="window.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
@@ -14,7 +14,26 @@
 
 </head>
 <body style="font-family: 'Raleway', sans-serif !important" >
-	<div class="main-wrapper">
+	<div id="mySidenav" class="sidenav">
+  		<a href="javascript:void(0)" class="closebtn" id="nav" onclick="closeRightMenu()">&times;</a>
+  		<button class="collapsible" id="nav">Inputs</button>
+  		<div class="component-content">
+  			Input dump here
+  		</div>
+  		<button class="collapsible" id="nav">Outputs</button>
+  		<div class="component-content">
+  			Outout dump here
+  		</div>
+  		<button class="collapsible" id="nav">Registers</button>
+  		<div class="component-content">
+  			Register dump here
+  		</div>
+  		<button class="collapsible" id="nav">Something maybe</button>
+  		<div class="component-content">
+  			Something else here probably
+  		</div>
+	</div>
+	<div id="main-wrapper">
 		<div class="component-panel">
 			<div id="component-label">
 				<h2>Components</h2>
@@ -36,6 +55,7 @@
 					<button class="component-btn">Input Button</button>
 					<button class="component-btn">Output LED</button>
 					<button class="component-btn">7 Segment Display</button>
+					<button class="component-btn">Clock</button>
 				</div>
 				
 				<button class="collapsible">Connectors</button>
@@ -65,7 +85,7 @@
 				<button class="toolbar-btn">Pause</button>
 				<button class="toolbar-btn">Select</button>
 				<button class="toolbar-btn">Pan</button>
-				<button class="toolbar-btn" id="debug-btn">Debug</button>
+				<button class="toolbar-btn" id="debug-btn" onclick="openRightMenu()">Debug</button>
 			</div>
 			<div id="workspacediv">
 				<!-- sole purpose is to provide a container for the canvas in p5 -->
@@ -88,6 +108,21 @@ for (i = 0; i < coll.length; i++) {
 			content.style.display = "block";
 		}
 	});
+}
+for (i = 0; i < tools.length; i++) {
+	tools[i].addEventListener("click", function() {
+		var content = this.nextElementSibling;
+		if (content.id != "debug-btn") {
+			this.classList.toggle("active");
+		}
+	});
+}
+function openRightMenu() {
+    document.getElementById("mySidenav").style.width = "400px";
+}
+
+function closeRightMenu() {
+    document.getElementById("mySidenav").style.width = "0";
 }
 </script>
 
