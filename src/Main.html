@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Logic sim and debugger</title>
     <link rel="stylesheet" href="window.css">
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+    <script src="js/workspace.js" type="text/javascript"></script>
+    <script src="js/libs/p5.js" type="text/javascript"></script>
+    <script src="js/libs/p5.dom.js" type="text/javascript"></script>
+
+
 </head>
 <body style="font-family: 'Raleway', sans-serif !important" >
 	<div class="main-wrapper">
@@ -60,7 +66,8 @@
 				<button class="toolbar-btn">Pan</button>
 				<button class="toolbar-btn" id="debug-btn">Debug</button>
 			</div>
-			<div id="workspace">
+			<div id="workspacediv">
+				<!-- sole purpose is to provide a container for the canvas in p5 -->
 			</div>
 		</div>
 	</div>
