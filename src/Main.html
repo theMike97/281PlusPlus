@@ -3,29 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="window.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet"> 
 </head>
-<body>
+<body style="font-family: 'Raleway', sans-serif !important" >
 	<div class="main-wrapper">
 		<div class="component-panel">
 			<div id="component-label">
-				Components
+				<h2>Components</h2>
 			</div>
 			<div id="components">
 				<button class="collapsible">Gates</button>
-				<div class="component-content">Gates here</div>
+				<div class="component-content">
+					<button class="component-btn">And Gate</button>
+					<button class="component-btn">Or Gate</button>
+					<button class="component-btn">Xor Gate</button>
+					<button class="component-btn">Nand Gate</button>
+					<button class="component-btn">Nor Gate</button>
+					<button class="component-btn">Xnor Gate</button>
+				</div>
 				
 				<button class="collapsible">IO</button>
-				<div class="component-content">IO here</div>
+				<div class="component-content">
+					<button class="component-btn">Input Switch</button>
+					<button class="component-btn">Input Button</button>
+					<button class="component-btn">Output LED</button>
+					<button class="component-btn">7 Segment Display</button>
+				</div>
 				
 				<button class="collapsible">Connectors</button>
-				<div class="component-content">Connectors here</div>
+				<div class="component-content">
+					<button class="component-btn">2 Way Connector</button>
+					<button class="component-btn">4 Way Connector</button>
+				</div>
 				
-				<button class="collapsible">Mux</button>
-				<div class="component-content">Mux here</div>
-				
-				<button class="collapsible">Decoder</button>
-				<div class="component-content">Decoder here</div>
+				<button class="collapsible">Mux and Decoder</button>
+				<div class="component-content">
+					<button class="component-btn">2:1 Mux</button>
+					<button class="component-btn">4:2 Mux</button>
+					<button class="component-btn">8:3 Mux</button>
+					<button class="component-btn">2:1 Decoder</button>
+					<button class="component-btn">4:2 Decoder</button>
+					<button class="component-btn">8:3 Decoder</button>
+				</div>
+				<button class="collapsible">Custom Components</button>
+				<div class="component-content">
+					<p>No custom components</p>
+				</div>
 			</div>
 		</div>
 		<div class="main-panel">
