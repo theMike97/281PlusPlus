@@ -34,6 +34,26 @@
 		#workspace{
 			background: #ccc;
 		}
+
+		.collapsible {
+			background-color: #777;
+			color: white;
+			cursor: pointer;
+			padding: 1em;
+			width: 100%;
+			border: none;
+			text-align: left;
+			outline: none;
+			font-size: 15px;
+		}
+		.active .collapsible:hover {
+			background-color: #555;
+		}
+		.component-content {
+			padding 0, 18px;
+			display: none;
+			overflow: hidden;
+		}
 	</style>
 </head>
 <body>
@@ -43,7 +63,20 @@
 				Components
 			</div>
 			<div id="components">
-				tile components here
+				<button class="collapsible">Gates</button>
+				<div class="component-content">Gates here</div>
+				
+				<button class="collapsible">IO</button>
+				<div class="component-content">IO here</div>
+				
+				<button class="collapsible">Connectors</button>
+				<div class="component-content">Connectors here</div>
+				
+				<button class="collapsible">Mux</button>
+				<div class="component-content">Mux here</div>
+				
+				<button class="collapsible">Decoder</button>
+				<div class="component-content">Decoder here</div>
 			</div>
 		</div>
 		<div class="main-panel">
@@ -55,5 +88,23 @@
 			</div>
 		</div>
 	</div>
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+	coll[i].addEventListener("click", function() {
+		this.classList.toggle("active");
+		var content = this.nextElementSibling;
+		if (content.style.display == "block") {
+			content.style.display = "none";
+		} else {
+			content.style.display = "block";
+		}
+	});
+}
+</script>
+
 </body>
 </html>
