@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
 	<style>
-		html {
-			height: 100%;
-		}
-		body {
-			min-height: 100%;
-		}
-		
 		.main-wrapper{
 			display:grid;
 			grid-template-columns: 1fr 4fr;
@@ -21,9 +14,18 @@
 			grid-template-rows: 1fr 9fr;
 		}
 
-		#component-panel {
-			padding: 1em;
+		.component-panel {
+			display: grid;
+			grid-template-rows: 1fr 9fr;
+			text-align: center;
 			background:#eee;
+		}
+		.component-panel > div {
+			padding: 1em;
+		}
+		#component-label {
+			display: inline-block;
+			background: #aaa;
 		}
 		#toolbar{
 			padding: 1em;
@@ -36,8 +38,13 @@
 </head>
 <body>
 	<div class="main-wrapper">
-		<div id="component-panel">
-			Component panel
+		<div class="component-panel">
+			<div id="component-label">
+				Components
+			</div>
+			<div id="components">
+				tile components here
+			</div>
 		</div>
 		<div class="main-panel">
 			<div id="toolbar">
