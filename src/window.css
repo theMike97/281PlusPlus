@@ -3,10 +3,6 @@ html, body {
 	min-height: 100vh;
 }
 
-h2 {
-	margin: 20px;
-}
-
 .main-wrapper{
 	height: 100vh;
 	display:grid;
@@ -20,7 +16,7 @@ h2 {
 
 .component-panel {
 	display: grid;
-	grid-template-rows: 80px;
+	grid-template-rows: 70px;
 	text-align: center;
 	background:#eee;
 }
@@ -28,6 +24,7 @@ h2 {
 	padding: 1em;
 }
 #component-label {
+	padding: 0;
 	display: inline-block;
 	background: #aaa;
 }
@@ -36,11 +33,28 @@ h2 {
 	background: #aaa;
 }
 #toolbar{
-	padding: 1em;
+	padding: 0em, 1em;
 	background:#ddd;
 }
+.toolbar-btn {
+	background-color: #ddd; 
+	cursor: pointer;
+	height: 100%;
+	width: 100px;
+	border: none;
+	outline: none;
+	font-size: 15px;
+}
+.toolbar-btn:hover {
+	background-color: #bbb;
+}
+#debug-btn {
+	float: right;
+}
 #workspace{
-	background: #ccc;
+	border-style: double;
+	border-width: 3px;
+	background: white;
 }
 
 .collapsible {
@@ -59,7 +73,7 @@ h2 {
 }
 .component-content {
 	background-color: #aaa;
-	padding 0, 18px;
+	padding: 0, 18px;
 	display: none;
 	overflow: hidden;
 }
