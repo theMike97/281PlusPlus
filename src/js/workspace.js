@@ -15,13 +15,12 @@ function setup() {
 function draw() {
 	background(255);
 
-	// canvas.height = document.getElementById("workspacediv").clientHeight;
-	// canvas.width = document.getElementById("workspacediv").clientWidth;
-
-	// console.log(document.getElementById("workspacediv").clientHeight);
-
 	grid.draw();
 
+}
+
+function windowResized() {
+	resizeCanvas(document.getElementById("workspacediv").clientWidth, document.getElementById("workspacediv").clientHeight);
 }
 
 function Point(x, y) {
