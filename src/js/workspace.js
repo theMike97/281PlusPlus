@@ -1,19 +1,21 @@
-var workspace;
+var canvasWidth = 0;
+var canvasHeight = 0;
+var grid = null;
 
 function setup() {
 	const canvasdiv = select("#workspacediv");
+	canvasWidth = canvasdiv.width;
+	canvasHeight = canvasdiv.height;
 
-	var canvas = createCanvas(canvasdiv.width,canvasdiv.height);
+	var canvas = createCanvas(canvasWidth, canvasHeight);
 	canvas.parent("workspacediv");
-	workspace = new Workspace();
+	grid = new Grid();
 }
 
 function draw() {
-	background(220);
 
-  //...drawing code...
-}
+	background(255);
 
-function Workspace() {
+	grid.show();
 
 }

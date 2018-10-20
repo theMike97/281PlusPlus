@@ -53,16 +53,12 @@ p {
 	outline: none;
 	font-size: 15px;
 }
-.toolbar-btn:hover {
+.active, .toolbar-btn:hover {
 	background-color: #777;
 	color: white;
 }
 #debug-btn {
 	float: right;
-}
-#workspacediv{
-	/*border-style: double;*/
-	/*border-width: 3px;*/
 }
 
 .collapsible {
