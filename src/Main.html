@@ -3,8 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+	<style>
+		html {
+			height: 100%;
+		}
+		body {
+			min-height: 100%;
+		}
+		
+		.main-wrapper{
+			display:grid;
+			grid-template-columns: 1fr 4fr;
+		}
+
+		.main-panel {
+			display: grid;
+			grid-template-rows: 1fr 9fr;
+		}
+
+		#component-panel {
+			padding: 1em;
+			background:#eee;
+		}
+		#toolbar{
+			padding: 1em;
+			background:#ddd;
+		}
+		#workspace{
+			background: #ccc;
+		}
+	</style>
 </head>
 <body>
-
+	<div class="main-wrapper">
+		<div id="component-panel">
+			Component panel
+		</div>
+		<div class="main-panel">
+			<div id="toolbar">
+				Toolbar
+			</div>
+			<div id="workspace">
+				Workspace
+			</div>
+		</div>
+	</div>
 </body>
 </html>
