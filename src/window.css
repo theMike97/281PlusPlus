@@ -75,7 +75,7 @@ html, body {
 }
 .component-content {
 	background-color: #111;
-	color: white;
+	color: #a1a1a1;
 	padding: 1em;
 	display: none;
 	font-size: 18px;
@@ -99,16 +99,17 @@ html, body {
     padding-top: 60px;
     /*padding-right: 1em; */
 }
-
 #nav {
     text-decoration: none;
     color: #a1a1a1;
     display: block;
     transition: 0.7s;
 }
-
 #nav:hover {
     color: #f1f1f1;
+}
+#debug-content {
+	font-family: courier;
 }
 
 .sidenav .closebtn {
