@@ -26,8 +26,12 @@ Component.prototype.setXY = function(x, y) {
 var Gate = function(x, y) {
 	Gate.super_.call(this, x, y);
 	
-	var AND_GATE = 0;
-	var OR_GATE = 1;
+	const AND_GATE = 0;
+	const OR_GATE = 1;
+	const XOR_GATE = 2;
+
+	this.origin = grid.getOrigin();
+	this.gridSize = grid.getGridSize();
 
 	this.nodeA = false;
     this.nodeB = false;
@@ -35,8 +39,12 @@ var Gate = function(x, y) {
 }
 inherits(Gate, Component);
 Gate.prototype.setInputNodes = function(nodeA, nodeB) {
+	
 	this.nodeA = nodeA;
     this.nodeB = nodeB;
+}
+Gate.prototype.isSelected = function(x, y) { // looks at mouse x/y to determine if mouse is hovering
+
 }
 
 // And Gate
@@ -49,13 +57,13 @@ AndGate.prototype.getOutput = function() {
 }
 AndGate.prototype.getDrawingDimens = function() {
 	let dimens = [
-		[grid.getOrigin().x + this.x, grid.getOrigin().y + this.y, grid.getOrigin().x + this.x, grid.getOrigin().y + 4 * grid.getGridSize() + this.y], // first line
-		[grid.getOrigin().x + this.x, grid.getOrigin().y + this.y, grid.getOrigin().x + 2*grid.getGridSize() + this.x, grid.getOrigin().y + this.y], // second line
-		[grid.getOrigin().x + this.x, grid.getOrigin().y + 4*grid.getGridSize() + this.y, grid.getOrigin().x + 2*grid.getGridSize() + this.x, grid.getOrigin().y + 4*grid.getGridSize() + this.y], // third line
-		[grid.getOrigin().x + 2*grid.getGridSize() + this.x, grid.getOrigin().y + 2*grid.getGridSize() + this.y, 4*grid.getGridSize(), 4*grid.getGridSize(), -HALF_PI, HALF_PI], // arc
-		[grid.getOrigin().x + this.x, grid.getOrigin().y + grid.getGridSize() + this.y, grid.getOrigin().x - grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y], // nodeA
-		[grid.getOrigin().x + this.x, grid.getOrigin().y +3*grid.getGridSize() + this.y, grid.getOrigin().x - grid.getGridSize() + this.x, grid.getOrigin().y + 3*grid.getGridSize() + this.y], // nodeB
-		[grid.getOrigin().x + 4*grid.getGridSize() + this.x, grid.getOrigin().y + 2*grid.getGridSize() + this.y, grid.getOrigin().x + 5*grid.getGridSize() + this.x, grid.getOrigin().y + 2*grid.getGridSize() + this.y] // out
+		[this.origin.x + this.x, this.origin.y + this.y, this.origin.x + this.x, this.origin.y + 4 * this.gridSize + this.y], // first line
+		[this.origin.x + this.x, this.origin.y + this.y, this.origin.x + 2*this.gridSize + this.x, this.origin.y + this.y], // second line
+		[this.origin.x + this.x, this.origin.y + 4*this.gridSize + this.y, this.origin.x + 2*this.gridSize + this.x, this.origin.y + 4*this.gridSize + this.y], // third line
+		[this.origin.x + 2*this.gridSize + this.x, this.origin.y + 2*this.gridSize + this.y, 4*this.gridSize, 4*this.gridSize, -HALF_PI, HALF_PI], // arc
+		[this.origin.x + this.x, this.origin.y + this.gridSize + this.y, this.origin.x - this.gridSize + this.x, this.origin.y + this.gridSize + this.y], // nodeA
+		[this.origin.x + this.x, this.origin.y +3*this.gridSize + this.y, this.origin.x - this.gridSize + this.x, this.origin.y + 3*this.gridSize + this.y], // nodeB
+		[this.origin.x + 4*this.gridSize + this.x, this.origin.y + 2*this.gridSize + this.y, this.origin.x + 5*this.gridSize + this.x, this.origin.y + 2*this.gridSize + this.y] // out
 	];
 
 	return dimens;
@@ -71,23 +79,23 @@ OrGate.prototype.getOutput = function() {
 }
 OrGate.prototype.getDrawingDimens = function() {
 	let dimens = [
-		[grid.getOrigin().x + this.x, grid.getOrigin().y + this.y,
-		grid.getOrigin().x + 0.75*grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y,
-		grid.getOrigin().x + 0.75*grid.getGridSize() + this.x, grid.getOrigin().y + 3*grid.getGridSize() + this.y,
-		grid.getOrigin().x + this.x, grid.getOrigin().y + 4*grid.getGridSize() + this.y],
-		[grid.getOrigin().x + this.x, grid.getOrigin().y + this.y, grid.getOrigin().x + 2*grid.getGridSize() + this.x, grid.getOrigin().y + this.y],
-		[grid.getOrigin().x + this.x, grid.getOrigin().y + 4*grid.getGridSize() + this.y, grid.getOrigin().x + 2*grid.getGridSize() + this.x, grid.getOrigin().y + 4*grid.getGridSize() + this.y],
-		[grid.getOrigin().x + 2*grid.getGridSize() + this.x, grid.getOrigin().y + this.y, 
-		grid.getOrigin().x + 3.8*grid.getGridSize() + this.x, grid.getOrigin().y + this.y, 
-		grid.getOrigin().x + 3.8*grid.getGridSize() + this.x, grid.getOrigin().y + 1.8*grid.getGridSize() + this.y, 
-		grid.getOrigin().x + 4*grid.getGridSize() + this.x, grid.getOrigin().y + 2*grid.getGridSize() + this.y],
-		[grid.getOrigin().x + this.x + 2*grid.getGridSize(), grid.getOrigin().y + this.y + 4*grid.getGridSize(), 
-		grid.getOrigin().x + 3.8*grid.getGridSize() + this.x, grid.getOrigin().y + 4*grid.getGridSize() + this.y, 
-		grid.getOrigin().x + 3.8*grid.getGridSize() + this.x, grid.getOrigin().y + 2.2*grid.getGridSize() + this.y, 
-		grid.getOrigin().x + 4*grid.getGridSize() + this.x, grid.getOrigin().y + 2*grid.getGridSize() + this.y],
-		[grid.getOrigin().x + 0.4*grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y, grid.getOrigin().x - grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y],
-		[grid.getOrigin().x + 0.4*grid.getGridSize() + this.x, grid.getOrigin().y +3*grid.getGridSize() + this.y, grid.getOrigin().x - grid.getGridSize() + this.x, grid.getOrigin().y + 3*grid.getGridSize() + this.y],
-		[grid.getOrigin().x + 4*grid.getGridSize() + this.x, grid.getOrigin().y + 2*grid.getGridSize() + this.y, grid.getOrigin().x + 5*grid.getGridSize() + this.x, grid.getOrigin().y + 2*grid.getGridSize() + this.y]
+		[this.origin.x + this.x, this.origin.y + this.y,
+		this.origin.x + 0.75*this.gridSize + this.x, this.origin.y + this.gridSize + this.y,
+		this.origin.x + 0.75*this.gridSize + this.x, this.origin.y + 3*this.gridSize + this.y,
+		this.origin.x + this.x, this.origin.y + 4*this.gridSize + this.y],
+		[this.origin.x + this.x, this.origin.y + this.y, this.origin.x + 2*this.gridSize + this.x, this.origin.y + this.y],
+		[this.origin.x + this.x, this.origin.y + 4*this.gridSize + this.y, this.origin.x + 2*this.gridSize + this.x, this.origin.y + 4*this.gridSize + this.y],
+		[this.origin.x + 2*this.gridSize + this.x, this.origin.y + this.y, 
+		this.origin.x + 3.8*this.gridSize + this.x, this.origin.y + this.y, 
+		this.origin.x + 3.8*this.gridSize + this.x, this.origin.y + 1.8*this.gridSize + this.y, 
+		this.origin.x + 4*this.gridSize + this.x, this.origin.y + 2*this.gridSize + this.y],
+		[this.origin.x + this.x + 2*this.gridSize, this.origin.y + this.y + 4*this.gridSize, 
+		this.origin.x + 3.8*this.gridSize + this.x, this.origin.y + 4*this.gridSize + this.y, 
+		this.origin.x + 3.8*this.gridSize + this.x, this.origin.y + 2.2*this.gridSize + this.y, 
+		this.origin.x + 4*this.gridSize + this.x, this.origin.y + 2*this.gridSize + this.y],
+		[this.origin.x + 0.4*this.gridSize + this.x, this.origin.y + this.gridSize + this.y, this.origin.x - this.gridSize + this.x, this.origin.y + this.gridSize + this.y],
+		[this.origin.x + 0.4*this.gridSize + this.x, this.origin.y +3*this.gridSize + this.y, this.origin.x - this.gridSize + this.x, this.origin.y + 3*this.gridSize + this.y],
+		[this.origin.x + 4*this.gridSize + this.x, this.origin.y + 2*this.gridSize + this.y, this.origin.x + 5*this.gridSize + this.x, this.origin.y + 2*this.gridSize + this.y]
 	];
 	return dimens;
 }
@@ -100,9 +108,33 @@ inherits(XorGate, Gate);
 XorGate.prototype.getOutput = function() {
 	return this.nodeA ? !this.nodeB : this.nodeB;
 }
-// XorGate.prototype.getDrawingDimens = function() {
-	
-// }
+XorGate.prototype.getDrawingDimens = function() {
+
+	let dimens = [
+		[this.origin.x - 0.5*this.gridSize + this.x, this.origin.y + this.y,
+		this.origin.x + 0.25*this.gridSize + this.x, this.origin.y + this.gridSize + this.y,
+		this.origin.x + 0.25*this.gridSize + this.x, this.origin.y + 3*this.gridSize + this.y,
+		this.origin.x + this.x - 0.5*this.gridSize, this.origin.y + 4*this.gridSize + this.y],
+		[this.origin.x + this.x, this.origin.y + this.y,
+		this.origin.x + 0.75*this.gridSize + this.x, this.origin.y + this.gridSize + this.y,
+		this.origin.x + 0.75*this.gridSize + this.x, this.origin.y + 3*this.gridSize + this.y,
+		this.origin.x + this.x, this.origin.y + 4*this.gridSize + this.y],
+		[this.origin.x + this.x, this.origin.y + this.y, this.origin.x + 2*this.gridSize + this.x, this.origin.y + this.y],
+		[this.origin.x + this.x, this.origin.y + 4*this.gridSize + this.y, this.origin.x + 2*this.gridSize + this.x, this.origin.y + 4*this.gridSize + this.y],
+		[this.origin.x + 2*this.gridSize + this.x, this.origin.y + this.y, 
+		this.origin.x + 3.8*this.gridSize + this.x, this.origin.y + this.y, 
+		this.origin.x + 3.8*this.gridSize + this.x, this.origin.y + 1.8*this.gridSize + this.y, 
+		this.origin.x + 4*this.gridSize + this.x, this.origin.y + 2*this.gridSize + this.y],
+		[this.origin.x + this.x + 2*this.gridSize, this.origin.y + this.y + 4*this.gridSize, 
+		this.origin.x + 3.8*this.gridSize + this.x, this.origin.y + 4*this.gridSize + this.y, 
+		this.origin.x + 3.8*this.gridSize + this.x, this.origin.y + 2.2*this.gridSize + this.y, 
+		this.origin.x + 4*this.gridSize + this.x, this.origin.y + 2*this.gridSize + this.y],
+		[this.origin.x - 0.1*this.gridSize + this.x, this.origin.y + this.gridSize + this.y, this.origin.x - this.gridSize + this.x, this.origin.y + this.gridSize + this.y],
+		[this.origin.x - 0.1*this.gridSize + this.x, this.origin.y +3*this.gridSize + this.y, this.origin.x - this.gridSize + this.x, this.origin.y + 3*this.gridSize + this.y],
+		[this.origin.x + 4*this.gridSize + this.x, this.origin.y + 2*this.gridSize + this.y, this.origin.x + 5*this.gridSize + this.x, this.origin.y + 2*this.gridSize + this.y]
+	];
+	return dimens;
+}
 
 // Nand Gate
 var NandGate = function(x, y) {

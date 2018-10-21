@@ -34,10 +34,6 @@ function Grid() {
 		return origin;
 	}
 
-	this.setOrigin = function (point) {
-		origin.setPoint(point.x, point.y);
-	}
-
 	this.getMousePt = function() {
 		return mousePt;
 	}
