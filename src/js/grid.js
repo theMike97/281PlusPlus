@@ -5,7 +5,7 @@ function Grid() {
 
 	origin = new Point(0,0);
 	mousePt = new Point(0,0);
-	this.gridSize = 10;
+	this.gridSize = 20;
 
 	this.drawGrid = function() {
 		strokeWeight(1);
