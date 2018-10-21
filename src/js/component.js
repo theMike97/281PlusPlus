@@ -29,7 +29,6 @@ var Gate = function(x, y) {
 	var AND_GATE = 0;
 	var OR_GATE = 1;
 
-	this.gateList = [];
 	this.nodeA = false;
     this.nodeB = false;
     this.out = false;

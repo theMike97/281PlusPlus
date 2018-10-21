@@ -27,31 +27,7 @@ function draw() {
 	var i;
 	// draw all gates
 	noFill();
-	// bezier(
-	// 	grid.getOrigin().x + x, grid.getOrigin().y + y,
-	// 	grid.getOrigin().x + 0.75*grid.getGridSize() + x, grid.getOrigin().y + grid.getGridSize() + y,
-	// 	grid.getOrigin().x + 0.75*grid.getGridSize() + x, grid.getOrigin().y + 3*grid.getGridSize() + y,
-	// 	grid.getOrigin().x + x, grid.getOrigin().y + 4*grid.getGridSize() + y
-	// 	);
-	// line(grid.getOrigin().x + x, grid.getOrigin().y + y, grid.getOrigin().x + 2*grid.getGridSize() + x, grid.getOrigin().y + y);
-	// line(grid.getOrigin().x + x, grid.getOrigin().y + 4*grid.getGridSize() + y, grid.getOrigin().x + 2*grid.getGridSize() + x, grid.getOrigin().y + 4*grid.getGridSize() + y);
-	// bezier(
-	// 	grid.getOrigin().x + 2*grid.getGridSize() + x, grid.getOrigin().y + y, 
-	// 	grid.getOrigin().x + 3.8*grid.getGridSize() + x, grid.getOrigin().y + y, 
-	// 	grid.getOrigin().x + 3.8*grid.getGridSize() + x, grid.getOrigin().y + 1.8*grid.getGridSize() + y, 
-	// 	grid.getOrigin().x + 4*grid.getGridSize() + x, grid.getOrigin().y + 2*grid.getGridSize() + y
-	// 	);
-	// bezier(
-	// 	grid.getOrigin().x + x + 2*grid.getGridSize(), grid.getOrigin().y + y + 4*grid.getGridSize(), 
-	// 	grid.getOrigin().x + 3.8*grid.getGridSize() + x, grid.getOrigin().y + 4*grid.getGridSize() + y, 
-	// 	grid.getOrigin().x + 3.8*grid.getGridSize() + x, grid.getOrigin().y + 2.2*grid.getGridSize() + y, 
-	// 	grid.getOrigin().x + 4*grid.getGridSize() + x, grid.getOrigin().y + 2*grid.getGridSize() + y
-	// 	);
-	// line(grid.getOrigin().x + 0.4*grid.getGridSize() + x, grid.getOrigin().y + grid.getGridSize() + y, grid.getOrigin().x - grid.getGridSize() + x, grid.getOrigin().y + grid.getGridSize() + y);
-	// line(grid.getOrigin().x + 0.4*grid.getGridSize() + x, grid.getOrigin().y +3*grid.getGridSize() + y, grid.getOrigin().x - grid.getGridSize() + x, grid.getOrigin().y + 3*grid.getGridSize() + y);
 
-	// line(grid.getOrigin().x + 4*grid.getGridSize() + x, grid.getOrigin().y + 2*grid.getGridSize() + y, grid.getOrigin().x + 5*grid.getGridSize() + x, grid.getOrigin().y + 2*grid.getGridSize() + y);
-	
 	let gate = null;
 	let gateDims = null;
 	for (i = 0; i < gateList.length; i++) {
@@ -85,10 +61,11 @@ function mouseClicked() {
 		if (mouseX > 0 && mouseY > 0) {
 			switch(component) {
 				case 0:
-					gateList.push(new AndGate(mouseX, mouseY));
+					// console.log(mouseX);
+					gateList.push(new AndGate(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y));
 					break;
 				case 1:
-					gateList.push(new OrGate(mouseX, mouseY));
+					gateList.push(new OrGate(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y));
 			}
 		}
 	}

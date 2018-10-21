@@ -34,6 +34,14 @@ function Grid() {
 		return origin;
 	}
 
+	this.setOrigin = function (point) {
+		origin.setPoint(point.x, point.y);
+	}
+
+	this.getMousePt = function() {
+		return mousePt;
+	}
+
 	this.getGridSize = function() {
 		return this.gridSize;
 	}
@@ -53,8 +61,4 @@ function mouseDragged() {
 		origin.setPoint(origin.x + dx, origin.y + dy);
 		mousePt.setPoint(mouseX, mouseY);
 	}
-}
-
-drawComponents = function(components) {
-
 }
