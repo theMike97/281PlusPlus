@@ -2,12 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-    <title>Logic sim and debugger</title>
+    <title>281++ Logic Simulator</title>
     <link rel="stylesheet" href="window.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <!-- Custom Javascript -->
     <script src="js/workspace.js" type="text/javascript"></script>
     <script src="js/grid.js" type="text/javascript"></script>
+    <script src="js/component.js" type="text/javascript"></script>
+
+    <!-- P5*JS libs -->
     <script src="js/libs/p5.js" type="text/javascript"></script>
     <script src="js/libs/p5.dom.js" type="text/javascript"></script>
 
@@ -22,7 +27,7 @@
   		</div>
   		<button class="collapsible" id="nav">Outputs</button>
   		<div class="component-content" id="debug-content">
-  			Outout dump here
+  			Output dump here
   		</div>
   		<button class="collapsible" id="nav">Registers</button>
   		<div class="component-content" id="debug-content">
@@ -36,10 +41,10 @@
 	<div id="main-wrapper">
 		<div class="component-panel">
 			<div id="component-label">
-				<h2>Components</h2>
+				<h2>2 8 1 + +</h2>
 			</div>
 			<div id="components">
-				<button class="collapsible">Gates</button>
+				<button class="collapsible" onclick="change('gatesarrow')">Gates <i id="gatesarrow" style="float: right">&#9662;</i></button>
 				<div class="component-content">
 					<button class="component-btn">And Gate</button>
 					<button class="component-btn">Or Gate</button>
@@ -49,7 +54,7 @@
 					<button class="component-btn">Xnor Gate</button>
 				</div>
 				
-				<button class="collapsible">IO</button>
+				<button class="collapsible" onclick="change('ioarrow')">IO<i id="ioarrow" style="float: right">&#9662;</i></button>
 				<div class="component-content">
 					<button class="component-btn">Input Switch</button>
 					<button class="component-btn">Input Button</button>
@@ -58,13 +63,13 @@
 					<button class="component-btn">Clock</button>
 				</div>
 				
-				<button class="collapsible">Connectors</button>
+				<button class="collapsible" onclick="change('connarrow')">Connectors<i id="connarrow" style="float: right">&#9662;</i></button>
 				<div class="component-content">
 					<button class="component-btn">2 Way Connector</button>
 					<button class="component-btn">4 Way Connector</button>
 				</div>
 				
-				<button class="collapsible">Mux and Decoder</button>
+				<button class="collapsible" onclick="change('muxdarrow')">Mux and Decoder<i id="muxdarrow" style="float: right">&#9662;</i></button>
 				<div class="component-content">
 					<button class="component-btn">2:1 Mux</button>
 					<button class="component-btn">4:2 Mux</button>
@@ -73,7 +78,7 @@
 					<button class="component-btn">4:2 Decoder</button>
 					<button class="component-btn">8:3 Decoder</button>
 				</div>
-				<button class="collapsible">Custom Components</button>
+				<button class="collapsible" onclick="change('customarrow')">Custom Components<i id="customarrow" style="float: right">&#9662;</i></button>
 				<div class="component-content">
 					<p>No custom components</p>
 				</div>
@@ -81,11 +86,12 @@
 		</div>
 		<div class="main-panel">
 			<div id="toolbar">
-				<button class="toolbar-btn">Simulate</button>
-				<button class="toolbar-btn">Pause</button>
-				<button class="toolbar-btn">Select</button>
+				<button class="toolbar-btn"><scan>Start &#9655;</scan></button>
+				<button class="toolbar-btn">Stop &#9633;</button>
+				<button class="toolbar-btn" >Select &#8598;</button>
 				<button class="toolbar-btn">Pan</button>
 				<button class="toolbar-btn" id="debug-btn" onclick="openRightMenu()">Debug</button>
+				<button class="toolbar-btn" onclick="window.open('https://github.com/trandrew1023/F18HackISU/blob/master/README.md')">Help</button>
 			</div>
 			<div id="workspacediv">
 				<!-- sole purpose is to provide a container for the canvas in p5 -->
@@ -96,6 +102,7 @@
 <script>
 var coll = document.getElementsByClassName("collapsible");
 var tools = document.getElementsByClassName("toolbar-btn");
+var comps = document.getElementsByClassName("component-btn");
 var i;
 
 for (i = 0; i < coll.length; i++) {
@@ -117,8 +124,15 @@ for (i = 0; i < tools.length; i++) {
 		}
 	});
 }
+function change(id) {
+	if (document.getElementById(id).innerHTML == "▾") {
+		document.getElementById(id).innerHTML = "▴";
+	} else {
+		document.getElementById(id).innerHTML = "▾";
+	}
+}
 function openRightMenu() {
-    document.getElementById("mySidenav").style.width = "400px";
+    document.getElementById("mySidenav").style.width = "300px";
 }
 
 function closeRightMenu() {

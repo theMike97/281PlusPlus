@@ -33,11 +33,11 @@ html, body {
 	padding: 0;
 	font-size: 18px;
 	display: inline-block;
-	background: #111;
+	background: #11111a;
 }
 #components {
 	padding: 0em;
-	background: #111;
+	background: #11111a;
 }
 #toolbar{
 	padding: 0em, 1em;
@@ -46,10 +46,10 @@ html, body {
 }
 .toolbar-btn {
 	color: #a1a1a1;
-	background-color: #111; 
+	background-color: #11111a; 
 	cursor: pointer;
 	height: 100%;
-	width: 100px;
+	width: 120px;
 	border: none;
 	outline: none;
 	font-size: 20px;
@@ -59,7 +59,7 @@ html, body {
 	transition: 0.3s;
 }
 .collapsible {
-	background-color: #111;
+	background-color: #11111a;
 	color: #a1a1a1;
 	cursor: pointer;
 	padding: 1em;
@@ -74,12 +74,13 @@ html, body {
 	transition: 0.3s;
 }
 .component-content {
-	background-color: #111;
+	background-color: #11111a;
 	color: #a1a1a1;
 	padding: 1em;
 	display: none;
 	font-size: 18px;
 	overflow: hidden;
+	text-align: left;
 }
 .component-btn {
 	display: grid;
@@ -93,7 +94,7 @@ html, body {
     z-index: 1;
     top: 0;
     right: 0;
-    background-color: #111;
+    background-color: #11111a;
     overflow-x: hidden;
     transition: 0.7s;
     padding-top: 60px;

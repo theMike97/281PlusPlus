@@ -7,7 +7,8 @@ function Grid() {
 	mousePt = new Point(0,0);
 	this.gridSize = 20;
 
-	this.draw = function() {
+	this.drawGrid = function() {
+		strokeWeight(1);
 		stroke(180);
 		let offsetx = origin.x;
 		let offsety = origin.y;
@@ -28,10 +29,21 @@ function Grid() {
 			offsety -= this.gridSize;
 		}
 	}
+
+	this.getOrigin = function() {
+		return origin;
+	}
+
+	this.getGridSize = function() {
+		return this.gridSize;
+	}
 }
 
+// i want a mouse clicked for placing components onto the workspace
 function mousePressed() {
-	mousePt.setPoint(mouseX, mouseY);
+	if (mouseButton == CENTER) {
+		mousePt.setPoint(mouseX, mouseY);
+	}
 }
 
 function mouseDragged() {
@@ -41,4 +53,8 @@ function mouseDragged() {
 		origin.setPoint(origin.x + dx, origin.y + dy);
 		mousePt.setPoint(mouseX, mouseY);
 	}
+}
+
+drawComponents = function(components) {
+
 }
