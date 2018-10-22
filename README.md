@@ -14,7 +14,13 @@ For more browser support/compatability details, look at [P5 Browser Support](htt
 
 ## Authors
 
-See the list of [contributors](https://github.com/trandrew1023.F18HackISU/contributors) who participated in this project.
+* Michael Lauderback
+
+* Andrew Tran
+
+* Alexander Warner
+
+* Justin Worely
 
 ## Contributing
 
