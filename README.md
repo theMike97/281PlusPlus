@@ -9,7 +9,8 @@ This is a web-based application which allows users to design, simulate, and debu
 * [Firebase](https://firebase.google.com/) - File storage and user database
 
 ## Compatability
-For browser support/compatability, look at [P5 Browser Support](https://github.com/processing/p5.js/blob/master/developer_docs/supported_browsers.md)
+Internet Explorer is not supported, but all current versions of Edge, Firefox, and Chrome are.
+For more browser support/compatability details, look at [P5 Browser Support](https://github.com/processing/p5.js/blob/master/developer_docs/supported_browsers.md).
 
 ## Authors
 
