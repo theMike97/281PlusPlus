@@ -118,6 +118,7 @@ html, body {
 }
 
 .sidenav .closebtn {
+	font-family: 'Raleway', sans-serif;
     position: absolute;
     top: 25px;
     right: 25px;

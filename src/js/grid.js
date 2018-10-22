@@ -12,21 +12,24 @@ function Grid() {
 		stroke(180);
 		let offsetx = origin.x;
 		let offsety = origin.y;
+		let adjustedGridSize = this.gridSize;
+		if (this.gridSize < 10) adjustedGridSize = this.gridSize*2;
+
 		while (offsetx < canvas.width) {
 			line(offsetx, 0, offsetx, canvas.height);
-			offsetx += this.gridSize;
+			offsetx += adjustedGridSize;
 		}
 		while (offsetx > 0) {
 			line(offsetx, 0, offsetx, canvas.height);
-			offsetx -= this.gridSize;
+			offsetx -= adjustedGridSize;
 		}
 		while (offsety < canvas.height) {
 			line(0, offsety, canvas.width, offsety);
-			offsety += this.gridSize;
+			offsety += adjustedGridSize;
 		}
 		while (offsety > 0) {
 			line(0, offsety, canvas.width, offsety);
-			offsety -= this.gridSize;
+			offsety -= adjustedGridSize;
 		}
 	}
 
@@ -36,6 +39,15 @@ function Grid() {
 
 	this.getMousePt = function() {
 		return mousePt;
+	}
+
+	this.changeGridSize = function(offset) {
+		this.gridSize += offset;
+	}
+
+	this.changeOrigin = function(offset) {
+		origin.x += offset;
+		origin.y += offset;
 	}
 
 	this.getGridSize = function() {

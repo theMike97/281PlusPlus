@@ -3,6 +3,7 @@ var grid = null;
 var canvas = null;
 
 var gateList = [];
+var componentList = [];
 
 function setup() {
 	canvasdiv = select("#workspacediv");
@@ -17,13 +18,28 @@ function setup() {
 function draw() {
 	background(255);
 
+	var workspace = document.getElementById("workspacediv");
+	if (workspace.addEventListener) {
+    	// IE9, Chrome, Safari, Opera
+    	workspace.addEventListener("mousewheel", MouseWheelHandler, false);
+    	// Firefox
+    	workspace.addEventListener("DOMMouseScroll", MouseWheelHandler, false);
+	} // IE 6/7/8
+	else {
+	    workspace.attachEvent("onmousewheel", MouseWheelHandler);
+	}
+
 	grid.drawGrid();
 
 	// draw sample and gate for use later.
 	// let x = 500;
 	// let y = 300;
 	stroke(0);
-	strokeWeight(1.25);
+	if (grid.getGridSize() < 10) {
+		strokeWeight(1);
+	} else {
+		strokeWeight(1.25);
+	}
 	var i;
 	// draw all gates
 	noFill();
@@ -34,30 +50,35 @@ function draw() {
 		gate = gateList[i];
 		gateDims = gate.getDrawingDimens();
 		if (gate instanceof AndGate) {
+			// and gate body
 			line(gateDims[0][0], gateDims[0][1], gateDims[0][2], gateDims[0][3]);
 			line(gateDims[1][0], gateDims[1][1], gateDims[1][2], gateDims[1][3]);
 			line(gateDims[2][0], gateDims[2][1], gateDims[2][2], gateDims[2][3]);
 			arc(gateDims[3][0], gateDims[3][1], gateDims[3][2], gateDims[3][3], gateDims[3][4], gateDims[3][5]);
-
+			// i/o nodes
 			line(gateDims[4][0], gateDims[4][1], gateDims[4][2], gateDims[4][3]);
 			line(gateDims[5][0], gateDims[5][1], gateDims[5][2], gateDims[5][3]);
 			line(gateDims[6][0], gateDims[6][1], gateDims[6][2], gateDims[6][3]);
 		} else if (gate instanceof OrGate) {
+			// or gate body
 			bezier(gateDims[0][0],gateDims[0][1],gateDims[0][2],gateDims[0][3],gateDims[0][4],gateDims[0][5],gateDims[0][6],gateDims[0][7]);
 			line(gateDims[1][0],gateDims[1][1],gateDims[1][2],gateDims[1][3]);
 			line(gateDims[2][0],gateDims[2][1],gateDims[2][2],gateDims[2][3]);
 			bezier(gateDims[3][0],gateDims[3][1],gateDims[3][2],gateDims[3][3],gateDims[3][4],gateDims[3][5],gateDims[3][6],gateDims[3][7]);
 			bezier(gateDims[4][0],gateDims[4][1],gateDims[4][2],gateDims[4][3],gateDims[4][4],gateDims[4][5],gateDims[4][6],gateDims[4][7]);
+			// i/o nodes
 			line(gateDims[5][0],gateDims[5][1],gateDims[5][2],gateDims[5][3]);
 			line(gateDims[6][0],gateDims[6][1],gateDims[6][2],gateDims[6][3]);
 			line(gateDims[7][0],gateDims[7][1],gateDims[7][2],gateDims[7][3]);
 		} else if (gate instanceof XorGate) {
+			// xor gate body
 			bezier(gateDims[0][0],gateDims[0][1],gateDims[0][2],gateDims[0][3],gateDims[0][4],gateDims[0][5],gateDims[0][6],gateDims[0][7]);
 			bezier(gateDims[1][0],gateDims[1][1],gateDims[1][2],gateDims[1][3],gateDims[1][4],gateDims[1][5],gateDims[1][6],gateDims[1][7]);
 			line(gateDims[2][0],gateDims[2][1],gateDims[2][2],gateDims[2][3]);
 			line(gateDims[3][0],gateDims[3][1],gateDims[3][2],gateDims[3][3]);
 			bezier(gateDims[4][0],gateDims[4][1],gateDims[4][2],gateDims[4][3],gateDims[4][4],gateDims[4][5],gateDims[4][6],gateDims[4][7]);
 			bezier(gateDims[5][0],gateDims[5][1],gateDims[5][2],gateDims[5][3],gateDims[5][4],gateDims[5][5],gateDims[5][6],gateDims[5][7]);
+			// i/o nodes
 			line(gateDims[6][0],gateDims[6][1],gateDims[6][2],gateDims[6][3]);
 			line(gateDims[7][0],gateDims[7][1],gateDims[7][2],gateDims[7][3]);
 			line(gateDims[8][0],gateDims[8][1],gateDims[8][2],gateDims[8][3]);
@@ -65,17 +86,58 @@ function draw() {
 	}
 }
 
+function MouseWheelHandler(e) {
+    // cross-browser wheel delta
+    var e = window.event || e; // old IE support
+    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+
+    if (grid.getGridSize() > 1 && delta < 0) {
+    	let i;
+    	let newX = 0;
+		let newY = 0;
+    	for (i = 0; i < componentList.length; i++) {
+			offsetX = componentList[i].getXY().x / grid.getGridSize();
+			offsetY = componentList[i].getXY().y / grid.getGridSize();
+			console.log(componentList[i].getXY().x + ", " + componentList[i].getXY().y);
+			console.log(offsetX + ", " + offsetY);
+    		componentList[i].changeXY(delta * offsetX, delta * offsetY);
+    	}
+    	grid.changeGridSize(delta);
+	}
+	if (delta > 0) {
+		let i;
+		let newX = 0;
+		let newY = 0;
+		for (i = 0; i < componentList.length; i++) {
+			offsetX = componentList[i].getXY().x / grid.getGridSize();
+			offsetY = componentList[i].getXY().y / grid.getGridSize();
+			console.log(componentList[i].getXY().x + ", " + componentList[i].getXY().y);
+			console.log(offsetX + ", " + offsetY);
+    		componentList[i].changeXY(delta * offsetX, delta * offsetY);
+    	}
+    	grid.changeGridSize(delta);
+	}
+    return false;
+}
+
 function mouseClicked() {
-	let component = 2;
+	let component = 1;
+	let gate = null;
+	let sideNav = document.getElementById("mySidenav");
+	let workspace = document.getElementById("workspacediv");
 	if (mouseButton == LEFT) {
-		if (mouseX > 0 && mouseY > 0) {
+		console.log(mouseX + ", " + mouseY);
+		if (mouseX > 0 && mouseY > 0 && mouseX < workspace.clientWidth - sideNav.clientWidth) { // sideNav doesnt change workspacediv size
 			switch(component) {
 				case 0:
-					// console.log(mouseX);
-					gateList.push(new AndGate(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y));
+					gate = new AndGate(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y);
+					gateList.push(gate);
+					componentList.push(gate);
 					break;
 				case 1:
-					gateList.push(new OrGate(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y));
+					gate = new OrGate(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y);
+					gateList.push(gate);
+					componentList.push(gate);
 					break;
 				case 2:
 					gateList.push(new XorGate(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y));
