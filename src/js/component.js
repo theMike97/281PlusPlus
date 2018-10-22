@@ -1,3 +1,12 @@
+const SELECT = -1;
+const NOT_GATE = 0;
+const AND_GATE = 1;
+const OR_GATE = 2;
+const XOR_GATE = 3;
+const NAND_GATE = 4;
+const NOR_GATE = 5;
+const XNOR_GATE = 6;
+
 inherits = function(ctor, superCtor) {
   ctor.super_ = superCtor;
   ctor.prototype = Object.create(superCtor.prototype, {
@@ -32,10 +41,6 @@ Component.prototype.getXY = function() {
 // base gate (always has 2 inputs)
 var Gate = function(x, y) {
 	Gate.super_.call(this, x, y);
-	
-	const AND_GATE = 0;
-	const OR_GATE = 1;
-	const XOR_GATE = 2;
 
 	this.gateOrigin = grid.getOrigin();
 

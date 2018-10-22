@@ -164,56 +164,56 @@ function selectComponent(id, old) {
 	console.log(old);
 	switch(id) {
 		case "notGate":
-			if (old == 0){
-				component = -1;
+			if (old == NOT_GATE){
+				component = SELECT;
 				break;
 			}
-			component = 0;
+			component = NOT_GATE;
 			break;
 		case "andGate":
-			if (old == 1){
-				component = -1;
+			if (old == AND_GATE){
+				component = SELECT;
 				break;
 			}
-			component = 1;
+			component = AND_GATE;
 			break;
 		case "orGate":
-			if (old == 2){
-				component = -1;
+			if (old == OR_GATE){
+				component = SELECT;
 				break;
 			}
-			component = 2
+			component = OR_GATE;
 			break;
 		case "xorGate":
-			if (old == 3){
-				component = -1;
+			if (old == XOR_GATE){
+				component = SELECT;
 				break;
 			}
-			component = 3
+			component = XOR_GATE;
 			break;
 		case "nandGate":
-			if (old == 4){
-				component = -1;
+			if (old == NAND_GATE){
+				component = SELECT;
 				break;
 			}
-			component = 4;
+			component = NAND_GATE;
 			break;
 		case "norGate":
-			if (old == 5){
-				component = -1;
+			if (old == NOR_GATE){
+				component = SELECT;
 				break;
 			}
-			component = 5;
+			component = NOR_GATE;
 			break;
 		case "xnorGate":
-			if (old == 6){
-				component = -1;
+			if (old == XNOR_GATE){
+				component = SELECT;
 				break;
 			}
-			component = 6;
+			component = XNOR_GATE;
 			break;
 		default:
-			component = -1;
+			component = SELECT;
 			break;
 	}
 }

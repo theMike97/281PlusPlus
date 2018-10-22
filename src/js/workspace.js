@@ -187,37 +187,37 @@ function mouseClicked() {
 
 			// place component
 			switch(component) {
-				case 0:
+				case NOT_GATE:
 					gate = new NotGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
-				case 1:
+				case AND_GATE:
 					gate = new AndGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
-				case 2:
+				case OR_GATE:
 					gate = new OrGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
-				case 3:
+				case XOR_GATE:
 					gate = new XorGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
-				case 4:
+				case NAND_GATE:
 					gate = new NandGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
-				case 5:
+				case NOR_GATE:
 					gate = new NorGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
-				case 6:
+				case XNOR_GATE:
 					gate = new XnorGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
