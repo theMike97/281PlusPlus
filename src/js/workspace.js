@@ -65,11 +65,6 @@ function draw() {
 	}
 }
 
-var andGate = document.getElementById("andGate");
-andGate.onClicked = function() {
-	alert("yay");
-}
-
 function mouseClicked() {
 	let component = 2;
 	if (mouseButton == LEFT) {

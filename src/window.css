@@ -1,4 +1,5 @@
 html, body {
+	font-family: 'Raleway', sans-serif !important;
 	width: 100%;
 	height: 100%;
 	padding: 0;
@@ -52,6 +53,7 @@ html, body {
 	width: 120px;
 	border: none;
 	outline: none;
+	font-family: 'Raleway', sans-serif;
 	font-size: 20px;
 }
 .active, .toolbar-btn:hover {
@@ -59,6 +61,7 @@ html, body {
 	transition: 0.3s;
 }
 .collapsible {
+	font-family: 'Raleway', sans-serif;
 	background-color: #11111a;
 	color: #a1a1a1;
 	cursor: pointer;
@@ -83,6 +86,7 @@ html, body {
 	text-align: left;
 }
 .component-btn {
+	font-family: 'Raleway', sans-serif;
 	display: grid;
 	grid-template-rows: 1fr
 }
