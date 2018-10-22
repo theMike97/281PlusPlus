@@ -1,13 +1,9 @@
-var canvasdiv = null;
 var grid = null;
-var canvas = null;
 
 var gateList = [];
 var componentList = [];
 
 var component = -1;
-
-var andGateBtn = document.getElementById("andGate");
 
 function setup() {
 	canvasdiv = select("#workspacediv");
@@ -67,27 +63,63 @@ function draw() {
 			line(gateDims[6][0], gateDims[6][1], gateDims[6][2], gateDims[6][3]);
 		} else if (gate instanceof OrGate) {
 			// or gate body
-			bezier(gateDims[0][0],gateDims[0][1],gateDims[0][2],gateDims[0][3],gateDims[0][4],gateDims[0][5],gateDims[0][6],gateDims[0][7]);
-			line(gateDims[1][0],gateDims[1][1],gateDims[1][2],gateDims[1][3]);
-			line(gateDims[2][0],gateDims[2][1],gateDims[2][2],gateDims[2][3]);
-			bezier(gateDims[3][0],gateDims[3][1],gateDims[3][2],gateDims[3][3],gateDims[3][4],gateDims[3][5],gateDims[3][6],gateDims[3][7]);
-			bezier(gateDims[4][0],gateDims[4][1],gateDims[4][2],gateDims[4][3],gateDims[4][4],gateDims[4][5],gateDims[4][6],gateDims[4][7]);
+			bezier(gateDims[0][0], gateDims[0][1], gateDims[0][2], gateDims[0][3], gateDims[0][4], gateDims[0][5], gateDims[0][6], gateDims[0][7]);
+			line(gateDims[1][0], gateDims[1][1], gateDims[1][2], gateDims[1][3]);
+			line(gateDims[2][0], gateDims[2][1], gateDims[2][2], gateDims[2][3]);
+			bezier(gateDims[3][0], gateDims[3][1], gateDims[3][2], gateDims[3][3], gateDims[3][4], gateDims[3][5], gateDims[3][6], gateDims[3][7]);
+			bezier(gateDims[4][0], gateDims[4][1], gateDims[4][2], gateDims[4][3], gateDims[4][4], gateDims[4][5], gateDims[4][6], gateDims[4][7]);
 			// i/o nodes
-			line(gateDims[5][0],gateDims[5][1],gateDims[5][2],gateDims[5][3]);
-			line(gateDims[6][0],gateDims[6][1],gateDims[6][2],gateDims[6][3]);
-			line(gateDims[7][0],gateDims[7][1],gateDims[7][2],gateDims[7][3]);
+			line(gateDims[5][0], gateDims[5][1], gateDims[5][2], gateDims[5][3]);
+			line(gateDims[6][0], gateDims[6][1], gateDims[6][2], gateDims[6][3]);
+			line(gateDims[7][0], gateDims[7][1], gateDims[7][2], gateDims[7][3]);
 		} else if (gate instanceof XorGate) {
 			// xor gate body
-			bezier(gateDims[0][0],gateDims[0][1],gateDims[0][2],gateDims[0][3],gateDims[0][4],gateDims[0][5],gateDims[0][6],gateDims[0][7]);
-			bezier(gateDims[1][0],gateDims[1][1],gateDims[1][2],gateDims[1][3],gateDims[1][4],gateDims[1][5],gateDims[1][6],gateDims[1][7]);
-			line(gateDims[2][0],gateDims[2][1],gateDims[2][2],gateDims[2][3]);
-			line(gateDims[3][0],gateDims[3][1],gateDims[3][2],gateDims[3][3]);
-			bezier(gateDims[4][0],gateDims[4][1],gateDims[4][2],gateDims[4][3],gateDims[4][4],gateDims[4][5],gateDims[4][6],gateDims[4][7]);
-			bezier(gateDims[5][0],gateDims[5][1],gateDims[5][2],gateDims[5][3],gateDims[5][4],gateDims[5][5],gateDims[5][6],gateDims[5][7]);
+			bezier(gateDims[0][0], gateDims[0][1], gateDims[0][2], gateDims[0][3], gateDims[0][4], gateDims[0][5], gateDims[0][6], gateDims[0][7]);
+			bezier(gateDims[1][0], gateDims[1][1], gateDims[1][2], gateDims[1][3], gateDims[1][4], gateDims[1][5], gateDims[1][6], gateDims[1][7]);
+			line(gateDims[2][0], gateDims[2][1], gateDims[2][2], gateDims[2][3]);
+			line(gateDims[3][0], gateDims[3][1], gateDims[3][2], gateDims[3][3]);
+			bezier(gateDims[4][0], gateDims[4][1], gateDims[4][2], gateDims[4][3], gateDims[4][4], gateDims[4][5], gateDims[4][6], gateDims[4][7]);
+			bezier(gateDims[5][0], gateDims[5][1], gateDims[5][2], gateDims[5][3], gateDims[5][4], gateDims[5][5], gateDims[5][6], gateDims[5][7]);
 			// i/o nodes
-			line(gateDims[6][0],gateDims[6][1],gateDims[6][2],gateDims[6][3]);
-			line(gateDims[7][0],gateDims[7][1],gateDims[7][2],gateDims[7][3]);
-			line(gateDims[8][0],gateDims[8][1],gateDims[8][2],gateDims[8][3]);
+			line(gateDims[6][0], gateDims[6][1], gateDims[6][2], gateDims[6][3]);
+			line(gateDims[7][0], gateDims[7][1], gateDims[7][2], gateDims[7][3]);
+			line(gateDims[8][0], gateDims[8][1], gateDims[8][2], gateDims[8][3]);
+		} else if (gate instanceof NandGate) {
+			// nand gate body
+			line(gateDims[0][0], gateDims[0][1], gateDims[0][2], gateDims[0][3]);
+			line(gateDims[1][0], gateDims[1][1], gateDims[1][2], gateDims[1][3]);
+			line(gateDims[2][0], gateDims[2][1], gateDims[2][2], gateDims[2][3]);
+			arc(gateDims[3][0], gateDims[3][1], gateDims[3][2], gateDims[3][3], gateDims[3][4], gateDims[3][5]);
+			ellipse(gateDims[4][0], gateDims[4][1], gateDims[4][2], gateDims[4][3]);
+			// i/o nodes
+			line(gateDims[5][0], gateDims[5][1], gateDims[5][2], gateDims[5][3]);
+			line(gateDims[6][0], gateDims[6][1], gateDims[6][2], gateDims[6][3]);
+			line(gateDims[7][0], gateDims[7][1], gateDims[7][2], gateDims[7][3]);
+		} else if (gate instanceof NorGate) {
+			// nor gate body
+			bezier(gateDims[0][0], gateDims[0][1], gateDims[0][2], gateDims[0][3], gateDims[0][4], gateDims[0][5], gateDims[0][6], gateDims[0][7]);
+			line(gateDims[1][0], gateDims[1][1], gateDims[1][2], gateDims[1][3]);
+			line(gateDims[2][0], gateDims[2][1], gateDims[2][2], gateDims[2][3]);
+			bezier(gateDims[3][0], gateDims[3][1], gateDims[3][2], gateDims[3][3], gateDims[3][4], gateDims[3][5], gateDims[3][6], gateDims[3][7]);
+			bezier(gateDims[4][0], gateDims[4][1], gateDims[4][2], gateDims[4][3], gateDims[4][4], gateDims[4][5], gateDims[4][6], gateDims[4][7]);
+			ellipse(gateDims[5][0], gateDims[5][1], gateDims[5][2], gateDims[5][3]);
+			// i/o nodes
+			line(gateDims[6][0], gateDims[6][1], gateDims[6][2], gateDims[6][3]);
+			line(gateDims[7][0], gateDims[7][1], gateDims[7][2], gateDims[7][3]);
+			line(gateDims[8][0], gateDims[8][1], gateDims[8][2], gateDims[8][3]);
+		} else if (gate instanceof XnorGate) {
+			// xnor gate body
+			bezier(gateDims[0][0], gateDims[0][1], gateDims[0][2], gateDims[0][3], gateDims[0][4], gateDims[0][5], gateDims[0][6], gateDims[0][7]);
+			bezier(gateDims[1][0], gateDims[1][1], gateDims[1][2], gateDims[1][3], gateDims[1][4], gateDims[1][5], gateDims[1][6], gateDims[1][7]);
+			line(gateDims[2][0], gateDims[2][1], gateDims[2][2], gateDims[2][3]);
+			line(gateDims[3][0], gateDims[3][1], gateDims[3][2], gateDims[3][3]);
+			bezier(gateDims[4][0], gateDims[4][1], gateDims[4][2], gateDims[4][3], gateDims[4][4], gateDims[4][5], gateDims[4][6], gateDims[4][7]);
+			bezier(gateDims[5][0], gateDims[5][1], gateDims[5][2], gateDims[5][3], gateDims[5][4], gateDims[5][5], gateDims[5][6], gateDims[5][7]);
+			ellipse(gateDims[6][0], gateDims[6][1], gateDims[6][2], gateDims[6][3]);
+			// i/o nodes
+			line(gateDims[7][0], gateDims[7][1], gateDims[7][2], gateDims[7][3]);
+			line(gateDims[8][0], gateDims[8][1], gateDims[8][2], gateDims[8][3]);
+			line(gateDims[9][0], gateDims[9][1], gateDims[9][2], gateDims[9][3]);
 		}
 	}
 }
@@ -123,7 +155,7 @@ function MouseWheelHandler(e) {
 }
 
 function mouseClicked() {
-	let gate = null;
+	let gate;
 	let sideNav = document.getElementById("mySidenav");
 	let workspace = document.getElementById("workspacediv");
 	if (mouseButton == LEFT) { // place component
@@ -159,6 +191,23 @@ function mouseClicked() {
 					gate = new XorGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
+					break;
+				case 3:
+					gate = new NandGate(x, y);
+					gateList.push(gate);
+					componentList.push(gate);
+					break;
+				case 4:
+					gate = new NorGate(x, y);
+					gateList.push(gate);
+					componentList.push(gate);
+					break;
+				case 5:
+					gate = new XnorGate(x, y);
+					gateList.push(gate);
+					componentList.push(gate);
+					break;
+				default:
 					break;
 			}
 		}
