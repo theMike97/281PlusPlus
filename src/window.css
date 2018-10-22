@@ -128,14 +128,18 @@ html, body {
 }
 
 @media screen and (max-height: 450px), (max-width: 1300px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav .closebtn {
-  	font-size: 25px;
-  	top: 10px;
-  }
-  html, body {font-size: 15px;}
-  #component-label {font-size: 15px}
-  .collapsible {font-size: 15px;}
-  .component-content {font-size: 14px;}
-  .toolbar-btn {font-size: 15px;}
+	.sidenav {padding-top: 15px;}
+	.sidenav .closebtn {
+		font-size: 25px;
+		top: 10px;
+	}
+	html, body {font-size: 15px;}
+	#component-label {font-size: 15px}
+	.collapsible {font-size: 15px;}
+	.component-content {font-size: 14px;}
+	.toolbar-btn {
+		font-size: 15px;
+		width: 80px;
+	}
+	.component-btn {width: 35px;}
 }
