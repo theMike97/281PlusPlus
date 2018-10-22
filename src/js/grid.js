@@ -64,9 +64,14 @@ function mousePressed() {
 
 function mouseDragged() {
 	if (mouseButton == CENTER) {
+		document.getElementById("workspacediv").style.cursor="grabbing";
 		let dx = mouseX - mousePt.x;
 		let dy = mouseY - mousePt.y;
 		origin.setPoint(origin.x + dx, origin.y + dy);
 		mousePt.setPoint(mouseX, mouseY);
 	}
+}
+
+function mouseReleased() {
+	if (mouseButton == CENTER) document.getElementById("workspacediv").style.cursor="auto";
 }
