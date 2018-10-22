@@ -5,6 +5,10 @@ var canvas = null;
 var gateList = [];
 var componentList = [];
 
+var component = -1;
+
+var andGateBtn = document.getElementById("andGate");
+
 function setup() {
 	canvasdiv = select("#workspacediv");
 	let canvasWidth = canvasdiv.width;
@@ -35,10 +39,12 @@ function draw() {
 	// let x = 500;
 	// let y = 300;
 	stroke(0);
-	if (grid.getGridSize() < 10) {
+	if (grid.getGridSize() < 5) {
 		strokeWeight(1);
+	} else if (grid.getGridSize() < 10) {
+		strokeWeight(1.5);
 	} else {
-		strokeWeight(1.25);
+		strokeWeight(2);
 	}
 	var i;
 	// draw all gates
@@ -117,26 +123,42 @@ function MouseWheelHandler(e) {
 }
 
 function mouseClicked() {
-	let component = 1;
 	let gate = null;
 	let sideNav = document.getElementById("mySidenav");
 	let workspace = document.getElementById("workspacediv");
-	if (mouseButton == LEFT) {
-		console.log(mouseX + ", " + mouseY);
+	if (mouseButton == LEFT) { // place component
 		if (mouseX > 0 && mouseY > 0 && mouseX < workspace.clientWidth - sideNav.clientWidth) { // sideNav doesnt change workspacediv size
+			// snap to grid code
+			let x = mouseX - grid.getOrigin().x;
+			let y = mouseY - grid.getOrigin().y;
+			xdiff = x % grid.getGridSize();
+			ydiff = y % grid.getGridSize();
+			if (xdiff <= grid.getGridSize() / 2)
+				x -= xdiff;
+			else
+				x += grid.getGridSize() - xdiff;
+
+			if (ydiff <= grid.getGridSize() / 2)
+				y -= ydiff;
+			else
+				y += grid.getGridSize() - ydiff;
+
+			// place component
 			switch(component) {
 				case 0:
-					gate = new AndGate(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y);
+					gate = new AndGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
 				case 1:
-					gate = new OrGate(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y);
+					gate = new OrGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
 				case 2:
-					gateList.push(new XorGate(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y));
+					gate = new XorGate(x, y);
+					gateList.push(gate);
+					componentList.push(gate);
 					break;
 			}
 		}
