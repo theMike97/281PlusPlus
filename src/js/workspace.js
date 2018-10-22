@@ -98,8 +98,6 @@ function MouseWheelHandler(e) {
     	for (i = 0; i < componentList.length; i++) {
 			offsetX = componentList[i].getXY().x / grid.getGridSize();
 			offsetY = componentList[i].getXY().y / grid.getGridSize();
-			console.log(componentList[i].getXY().x + ", " + componentList[i].getXY().y);
-			console.log(offsetX + ", " + offsetY);
     		componentList[i].changeXY(delta * offsetX, delta * offsetY);
     	}
     	grid.changeGridSize(delta);
@@ -111,8 +109,6 @@ function MouseWheelHandler(e) {
 		for (i = 0; i < componentList.length; i++) {
 			offsetX = componentList[i].getXY().x / grid.getGridSize();
 			offsetY = componentList[i].getXY().y / grid.getGridSize();
-			console.log(componentList[i].getXY().x + ", " + componentList[i].getXY().y);
-			console.log(offsetX + ", " + offsetY);
     		componentList[i].changeXY(delta * offsetX, delta * offsetY);
     	}
     	grid.changeGridSize(delta);
