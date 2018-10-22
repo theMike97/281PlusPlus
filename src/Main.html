@@ -48,6 +48,7 @@
 			<div id="components">
 				<button class="collapsible" onclick="change('gatesarrow')">Gates <i id="gatesarrow" style="float: right">&#9662;</i></button>
 				<div class="component-content">
+					<input type="image" src="res/notgate_us.png" class="component-btn" id="notGate" alt="Not Gate" onclick="selectComponent(this.id, component)"></input>
 					<input type="image" src="res/andgate_us.png" class="component-btn" id="andGate" alt="And Gate" onclick="selectComponent(this.id, component)"></input>
 					<input type="image" src="res/orgate_us.png" class="component-btn" id="orGate" alt="Or Gate" onclick="selectComponent(this.id, component)"></input>
 					<input type="image" src="res/xorgate_us.png" class="component-btn" id="xorGate" alt="Xor Gate" onclick="selectComponent(this.id, component)"></input>
@@ -162,47 +163,54 @@ function closeRightMenu() {
 function selectComponent(id, old) {
 	console.log(old);
 	switch(id) {
-		case "andGate":
+		case "notGate":
 			if (old == 0){
 				component = -1;
 				break;
 			}
 			component = 0;
 			break;
-		case "orGate":
+		case "andGate":
 			if (old == 1){
 				component = -1;
 				break;
 			}
-			component = 1
+			component = 1;
 			break;
-		case "xorGate":
+		case "orGate":
 			if (old == 2){
 				component = -1;
 				break;
 			}
 			component = 2
 			break;
-		case "nandGate":
+		case "xorGate":
 			if (old == 3){
 				component = -1;
 				break;
 			}
-			component = 3;
+			component = 3
 			break;
-		case "norGate":
+		case "nandGate":
 			if (old == 4){
 				component = -1;
 				break;
 			}
 			component = 4;
 			break;
-		case "xnorGate":
+		case "norGate":
 			if (old == 5){
 				component = -1;
 				break;
 			}
 			component = 5;
+			break;
+		case "xnorGate":
+			if (old == 6){
+				component = -1;
+				break;
+			}
+			component = 6;
 			break;
 		default:
 			component = -1;

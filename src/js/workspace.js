@@ -32,9 +32,11 @@ function draw() {
 	grid.drawGrid();
 
 	// draw sample and gate for use later.
-	// let x = 500;
+	// let x = 200;
 	// let y = 300;
+
 	stroke(0);
+	// strokeWeight(2);
 	if (grid.getGridSize() < 5) {
 		strokeWeight(1);
 	} else if (grid.getGridSize() < 10) {
@@ -51,7 +53,15 @@ function draw() {
 	for (i = 0; i < gateList.length; i++) {
 		gate = gateList[i];
 		gateDims = gate.getDrawingDimens();
-		if (gate instanceof AndGate) {
+		if (gate instanceof NotGate) {
+			// not gate body
+			line(gateDims[0][0], gateDims[0][1], gateDims[0][2], gateDims[0][3]);
+			line(gateDims[1][0], gateDims[1][1], gateDims[1][2], gateDims[1][3]);
+			line(gateDims[2][0], gateDims[2][1], gateDims[2][2], gateDims[2][3]);
+			ellipse(gateDims[3][0], gateDims[3][1], gateDims[3][2], gateDims[3][3]);
+			line(gateDims[4][0], gateDims[4][1], gateDims[4][2], gateDims[4][3]);
+			line(gateDims[5][0], gateDims[5][1], gateDims[5][2], gateDims[5][3]);
+		} else if (gate instanceof AndGate) {
 			// and gate body
 			line(gateDims[0][0], gateDims[0][1], gateDims[0][2], gateDims[0][3]);
 			line(gateDims[1][0], gateDims[1][1], gateDims[1][2], gateDims[1][3]);
@@ -178,31 +188,36 @@ function mouseClicked() {
 			// place component
 			switch(component) {
 				case 0:
-					gate = new AndGate(x, y);
+					gate = new NotGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
 				case 1:
-					gate = new OrGate(x, y);
+					gate = new AndGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
 				case 2:
-					gate = new XorGate(x, y);
+					gate = new OrGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
 				case 3:
-					gate = new NandGate(x, y);
+					gate = new XorGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
 				case 4:
-					gate = new NorGate(x, y);
+					gate = new NandGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);
 					break;
 				case 5:
+					gate = new NorGate(x, y);
+					gateList.push(gate);
+					componentList.push(gate);
+					break;
+				case 6:
 					gate = new XnorGate(x, y);
 					gateList.push(gate);
 					componentList.push(gate);

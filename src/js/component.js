@@ -53,6 +53,26 @@ Gate.prototype.isSelected = function(x, y) { // looks at mouse x/y to determine 
 
 }
 
+// Not Gate
+var NotGate = function(x, y) {
+	NotGate.super_.call(this, x, y);
+}
+inherits(NotGate, Gate);
+NotGate.prototype.getOutput = function() {
+	return !this.nodeA;
+}
+NotGate.prototype.getDrawingDimens = function() {
+	let dimens = [
+		[grid.getOrigin().x + this.x, grid.getOrigin().y + this.y, grid.getOrigin().x + 2*grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y],
+		[grid.getOrigin().x + this.x, grid.getOrigin().y + 2*grid.getGridSize()+ this.y, grid.getOrigin().x + 2*grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y],
+		[grid.getOrigin().x + this.x, grid.getOrigin().y + 2* grid.getGridSize() + this.y, grid.getOrigin().x + this.x, grid.getOrigin().y + this.y],
+		[grid.getOrigin().x + 2.25*grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y, 0.5*grid.getGridSize(),0.5*grid.getGridSize()],
+		[grid.getOrigin().x + this.x, grid.getOrigin().y + grid.getGridSize() + this.y, grid.getOrigin().x - grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y],
+		[grid.getOrigin().x + 2.5*grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y, grid.getOrigin().x + 3*grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y]
+	];
+	return dimens;
+}
+
 // And Gate
 var AndGate = function(x, y) {
 	AndGate.super_.call(this, x, y);
