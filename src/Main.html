@@ -35,7 +35,7 @@
   		<div class="component-content" id="debug-content">
   			Register dump here
   		</div>
-  		<button class="collapsible" id="nav">Something maybe</button>
+  		<button class="collapsible" id="nav">Something</button>
   		<div class="component-content" id="debug-content">
   			Something else here probably
   		</div>
@@ -48,12 +48,15 @@
 			<div id="components">
 				<button class="collapsible" onclick="change('gatesarrow')">Gates <i id="gatesarrow" style="float: right">&#9662;</i></button>
 				<div class="component-content">
-					<button class="component-btn" id="andGate">And Gate</button>
-					<button class="component-btn" id="orGate">Or Gate</button>
-					<button class="component-btn" id="xorGate">Xor Gate</button>
-					<button class="component-btn" id="nandGate">Nand Gate</button>
-					<button class="component-btn" id="norGate">Nor Gate</button>
-					<button class="component-btn" id="xnorGate	">Xnor Gate</button>
+					<input type="image" src="res/notgate_us.png" class="component-btn" id="notGate" alt="Not Gate" onclick="selectComponent(this.id, component)"></input>
+					<input type="image" src="res/andgate_us.png" class="component-btn" id="andGate" alt="And Gate" onclick="selectComponent(this.id, component)"></input>
+					<input type="image" src="res/orgate_us.png" class="component-btn" id="orGate" alt="Or Gate" onclick="selectComponent(this.id, component)"></input>
+					<input type="image" src="res/xorgate_us.png" class="component-btn" id="xorGate" alt="Xor Gate" onclick="selectComponent(this.id, component)"></input>
+					<input type="image" src="res/nandgate_us.png" class="component-btn" id="nandGate" alt="Nand Gate" onclick="selectComponent(this.id, component)">
+					</input>
+					<input type="image" src="res/norgate_us.png" class="component-btn" id="norGate" alt="Nor Gate" onclick="selectComponent(this.id, component)"></input>
+					<input type="image" src="res/xnorgate_us.png" class="component-btn" id="xnorGate" alt="Xnor Gate" onclick="selectComponent(this.id, component)">
+					</input>
 				</div>
 				
 				<button class="collapsible" onclick="change('ioarrow')">IO<i id="ioarrow" style="float: right">&#9662;</i></button>
@@ -90,7 +93,7 @@
 			<div id="toolbar">
 				<button class="toolbar-btn"><scan>Start &#9655;</scan></button>
 				<button class="toolbar-btn">Stop &#9633;</button>
-				<button class="toolbar-btn" >Select &#8598;</button>
+				<button class="toolbar-btn" onclick="component=-1">Select &#8598;</button>
 				<button class="toolbar-btn">Pan</button>
 				<button class="toolbar-btn" id="debug-btn" onclick="openRightMenu()">Debug</button>
 				<button class="toolbar-btn" onclick="window.open('https://github.com/trandrew1023/F18HackISU/blob/master/README.md')">Help</button>
@@ -126,6 +129,22 @@ for (i = 0; i < tools.length; i++) {
 		}
 	});
 }
+for (i = 0; i < comps.length; i++) {
+	comps[i].addEventListener("click", function() {
+		this.classList.toggle("active");
+		if (this.src.endsWith("_us.png")) {
+			let j;
+			let comps = document.getElementsByClassName("component-btn");
+			for (j = 0; j < comps.length; j++) {
+				comps[j].src = comps[j].src = "res/" + comps[j].id.toLowerCase() + "_us.png";
+			}
+			this.src = "res/" + this.id.toLowerCase() + ".png";
+		} else {
+			this.src = "res/" + this.id.toLowerCase() + "_us.png";
+		}
+	});
+}
+
 function change(id) {
 	if (document.getElementById(id).innerHTML == "▾") {
 		document.getElementById(id).innerHTML = "▴";
@@ -140,6 +159,76 @@ function openRightMenu() {
 function closeRightMenu() {
     document.getElementById("mySidenav").style.width = "0";
 }
+
+function selectComponent(id, old) {
+	console.log(old);
+	switch(id) {
+		case "notGate":
+			if (old == NOT_GATE){
+				component = SELECT;
+				break;
+			}
+			component = NOT_GATE;
+			break;
+		case "andGate":
+			if (old == AND_GATE){
+				component = SELECT;
+				break;
+			}
+			component = AND_GATE;
+			break;
+		case "orGate":
+			if (old == OR_GATE){
+				component = SELECT;
+				break;
+			}
+			component = OR_GATE;
+			break;
+		case "xorGate":
+			if (old == XOR_GATE){
+				component = SELECT;
+				break;
+			}
+			component = XOR_GATE;
+			break;
+		case "nandGate":
+			if (old == NAND_GATE){
+				component = SELECT;
+				break;
+			}
+			component = NAND_GATE;
+			break;
+		case "norGate":
+			if (old == NOR_GATE){
+				component = SELECT;
+				break;
+			}
+			component = NOR_GATE;
+			break;
+		case "xnorGate":
+			if (old == XNOR_GATE){
+				component = SELECT;
+				break;
+			}
+			component = XNOR_GATE;
+			break;
+		default:
+			component = SELECT;
+			break;
+	}
+}
+document.onkeydown = function(evt) {
+    evt = evt || window.event;
+    if (evt.keyCode == 27) {
+		let comps = document.getElementsByClassName("component-btn");
+		for (i = 0; i < comps.length; i++) {
+			if (comps[i].id != "") {
+				document.getElementById(comps[i].id).src="res/" + comps[i].id.toLowerCase() + "_us.png";
+			}
+		}
+        component = -1;
+    }
+};
 </script>
 
 </body>
