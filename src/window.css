@@ -142,4 +142,9 @@ html, body {
 		width: 80px;
 	}
 	.component-btn {width: 35px;}
+	#main-wrapper {grid-template-columns: minmax(200px, 1fr) 4fr;};
+}
+
+@media screen and (max-width: 990px) {
+	html, body {overflow: visible;}
 }

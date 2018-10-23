@@ -135,33 +135,35 @@ function draw() {
 }
 
 function MouseWheelHandler(e) {
-    // cross-browser wheel delta
-    var e = window.event || e; // old IE support
-    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+	if (shift == 1) { // shift+scroll allows user to scroll physical web page if screen is compressed (split screen perhaps)
+    	// cross-browser wheel delta
+    	var e = window.event || e; // old IE support
+    	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 
-    if (grid.getGridSize() > 1 && delta < 0) {
-    	let i;
-    	let newX = 0;
-		let newY = 0;
-    	for (i = 0; i < componentList.length; i++) {
-			offsetX = componentList[i].getXY().x / grid.getGridSize();
-			offsetY = componentList[i].getXY().y / grid.getGridSize();
-    		componentList[i].changeXY(delta * offsetX, delta * offsetY);
+    	if (grid.getGridSize() > 1 && delta < 0) {
+    		let i;
+    		let newX = 0;
+    		let newY = 0;
+    		for (i = 0; i < componentList.length; i++) {
+    			offsetX = componentList[i].getXY().x / grid.getGridSize();
+    			offsetY = componentList[i].getXY().y / grid.getGridSize();
+    			componentList[i].changeXY(delta * offsetX, delta * offsetY);
+    		}
+    		grid.changeGridSize(delta);
     	}
-    	grid.changeGridSize(delta);
-	}
-	if (delta > 0) {
-		let i;
-		let newX = 0;
-		let newY = 0;
-		for (i = 0; i < componentList.length; i++) {
-			offsetX = componentList[i].getXY().x / grid.getGridSize();
-			offsetY = componentList[i].getXY().y / grid.getGridSize();
-    		componentList[i].changeXY(delta * offsetX, delta * offsetY);
+    	if (delta > 0) {
+    		let i;
+    		let newX = 0;
+    		let newY = 0;
+    		for (i = 0; i < componentList.length; i++) {
+    			offsetX = componentList[i].getXY().x / grid.getGridSize();
+    			offsetY = componentList[i].getXY().y / grid.getGridSize();
+    			componentList[i].changeXY(delta * offsetX, delta * offsetY);
+    		}
+    		grid.changeGridSize(delta);
     	}
-    	grid.changeGridSize(delta);
+    	return false;
 	}
-    return false;
 }
 
 function mouseClicked() {
