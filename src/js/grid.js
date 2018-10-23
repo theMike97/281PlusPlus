@@ -56,9 +56,20 @@ function Grid() {
 }
 
 // i want a mouse clicked for placing components onto the workspace
+var selectedComponent = null;
 function mousePressed() {
 	if (mouseButton == CENTER) {
 		mousePt.setPoint(mouseX, mouseY);
+	}
+	if (mouseButton == LEFT) {
+		for (i = 0; i < componentList.length; i++) { // select component
+			COMPONENT_SELECTED = componentList[i].isSelected(mouseX, mouseY);
+			if (COMPONENT_SELECTED) {
+				selectedComponent = componentList[i];
+				console.log("selected!");
+				break;
+			}
+		}
 	}
 }
 
@@ -69,6 +80,14 @@ function mouseDragged() {
 		let dy = mouseY - mousePt.y;
 		origin.setPoint(origin.x + dx, origin.y + dy);
 		mousePt.setPoint(mouseX, mouseY);
+	}
+	if (mouseButton == LEFT) {
+		if (COMPONENT_SELECTED) { // drag selected component
+			hitBoxVerts = selectedComponent.getHitBoxVerts();
+			let componentWidth = hitBoxVerts[1].x - hitBoxVerts[0].x;
+			let componentHeight = hitBoxVerts[1].y - hitBoxVerts[0].y
+			selectedComponent.setXY(mouseX - componentWidth/5, mouseY - componentHeight/2);
+		}
 	}
 }
 

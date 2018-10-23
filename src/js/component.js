@@ -1,3 +1,5 @@
+var COMPONENT_SELECTED = false;
+
 const SELECT = -1;
 const NOT_GATE = 0;
 const AND_GATE = 1;
@@ -34,6 +36,13 @@ Component.prototype.changeXY = function(offsetx, offsety) {
 Component.prototype.getXY = function() {
 	return new Point(this.x, this.y);
 }
+Component.prototype.isSelected = function(x, y) { // looks at mouse x/y to determine if mouse is hovering
+	let isSelected = false;
+	for (i = 0; i < componentList.length; i++) {
+
+	}
+	return isSelected;
+}
 
 /*
  * gates here
@@ -54,9 +63,6 @@ Gate.prototype.setInputNodes = function(nodeA, nodeB) {
 	this.nodeA = nodeA;
     this.nodeB = nodeB;
 }
-Gate.prototype.isSelected = function(x, y) { // looks at mouse x/y to determine if mouse is hovering
-
-}
 
 // Not Gate
 var NotGate = function(x, y) {
@@ -65,6 +71,15 @@ var NotGate = function(x, y) {
 inherits(NotGate, Gate);
 NotGate.prototype.getOutput = function() {
 	return !this.nodeA;
+}
+NotGate.prototype.getHitBoxVerts = function() { //returns point at top left and bottom right
+	topLeft = new Point(grid.getOrigin().x + this.x - grid.getGridSize(), grid.getOrigin().y + this.y);
+	bottomRight = new Point(grid.getOrigin().x + this.x + 3*grid.getGridSize(), grid.getOrigin().y + this.y + 2*grid.getGridSize());
+	return [topLeft, bottomRight];
+}
+NotGate.prototype.isSelected = function(x, y) {
+	let hitBoxVerts = this.getHitBoxVerts();
+	return (x > hitBoxVerts[0].x && y > hitBoxVerts[0].y) && (x < hitBoxVerts[1].x && y < hitBoxVerts[1].y);
 }
 NotGate.prototype.getDrawingDimens = function() {
 	let dimens = [
@@ -85,6 +100,15 @@ var AndGate = function(x, y) {
 inherits(AndGate, Gate);
 AndGate.prototype.getOutput = function() {
 	return this.nodeA && this.nodeB;
+}
+AndGate.prototype.getHitBoxVerts = function() {
+	topLeft = new Point(grid.getOrigin().x + this.x - grid.getGridSize(), grid.getOrigin().y + this.y);
+	bottomRight = new Point(grid.getOrigin().x + this.x + 5*grid.getGridSize(), grid.getOrigin().y + this.y + 4*grid.getGridSize());
+	return [topLeft, bottomRight];
+}
+AndGate.prototype.isSelected = function(x, y) {
+	let hitBoxVerts = this.getHitBoxVerts();
+	return (x > hitBoxVerts[0].x && y > hitBoxVerts[0].y) && (x < hitBoxVerts[1].x && y < hitBoxVerts[1].y);
 }
 AndGate.prototype.getDrawingDimens = function() {
 	let dimens = [
@@ -107,6 +131,15 @@ var OrGate = function(x, y) {
 inherits(OrGate, Gate);
 OrGate.prototype.getOutput = function() {
 	return this.nodeA || this.nodeB;
+}
+OrGate.prototype.isSelected = function(x, y) {
+	let hitBoxVerts = this.getHitBoxVerts();
+	return (x > hitBoxVerts[0].x && y > hitBoxVerts[0].y) && (x < hitBoxVerts[1].x && y < hitBoxVerts[1].y);
+}
+OrGate.prototype.getHitBoxVerts = function() {
+	topLeft = new Point(grid.getOrigin().x + this.x - grid.getGridSize(), grid.getOrigin().y + this.y);
+	bottomRight = new Point(grid.getOrigin().x + this.x + 5*grid.getGridSize(), grid.getOrigin().y + this.y + 4*grid.getGridSize());
+	return [topLeft, bottomRight];
 }
 OrGate.prototype.getDrawingDimens = function() {
 	let dimens = [
@@ -138,6 +171,15 @@ var XorGate = function(x, y) {
 inherits(XorGate, Gate);
 XorGate.prototype.getOutput = function() {
 	return this.nodeA ? !this.nodeB : this.nodeB;
+}
+XorGate.prototype.isSelected = function(x, y) {
+	let hitBoxVerts = this.getHitBoxVerts();
+	return (x > hitBoxVerts[0].x && y > hitBoxVerts[0].y) && (x < hitBoxVerts[1].x && y < hitBoxVerts[1].y);
+}
+XorGate.prototype.getHitBoxVerts = function() {
+	topLeft = new Point(grid.getOrigin().x + this.x - grid.getGridSize(), grid.getOrigin().y + this.y);
+	bottomRight = new Point(grid.getOrigin().x + this.x + 5*grid.getGridSize(), grid.getOrigin().y + this.y + 4*grid.getGridSize());
+	return [topLeft, bottomRight];
 }
 XorGate.prototype.getDrawingDimens = function() {
 	let dimens = [
@@ -174,6 +216,15 @@ inherits(NandGate, Gate);
 NandGate.prototype.getOutput = function() {
 	return !(this.nodeA && this.nodeB);
 }
+NandGate.prototype.isSelected = function(x, y) {
+	let hitBoxVerts = this.getHitBoxVerts();
+	return (x > hitBoxVerts[0].x && y > hitBoxVerts[0].y) && (x < hitBoxVerts[1].x && y < hitBoxVerts[1].y);
+}
+NandGate.prototype.getHitBoxVerts = function() {
+	topLeft = new Point(grid.getOrigin().x + this.x - grid.getGridSize(), grid.getOrigin().y + this.y);
+	bottomRight = new Point(grid.getOrigin().x + this.x + 5*grid.getGridSize(), grid.getOrigin().y + this.y + 4*grid.getGridSize());
+	return [topLeft, bottomRight];
+}
 NandGate.prototype.getDrawingDimens = function() {
 	let dimens = [
 		[grid.getOrigin().x + this.x, grid.getOrigin().y + this.y, grid.getOrigin().x + this.x, grid.getOrigin().y + 4 * grid.getGridSize() + this.y], // first line
@@ -195,6 +246,15 @@ var NorGate = function(x, y) {
 inherits(NorGate, Gate);
 NorGate.prototype.getOutput = function() {
 	return !(this.nodeA || this.nodeB);
+}
+NorGate.prototype.isSelected = function(x, y) {
+	let hitBoxVerts = this.getHitBoxVerts();
+	return (x > hitBoxVerts[0].x && y > hitBoxVerts[0].y) && (x < hitBoxVerts[1].x && y < hitBoxVerts[1].y);
+}
+NorGate.prototype.getHitBoxVerts = function() {
+	topLeft = new Point(grid.getOrigin().x + this.x - grid.getGridSize(), grid.getOrigin().y + this.y);
+	bottomRight = new Point(grid.getOrigin().x + this.x + 5*grid.getGridSize(), grid.getOrigin().y + this.y + 4*grid.getGridSize());
+	return [topLeft, bottomRight];
 }
 NorGate.prototype.getDrawingDimens = function() {
 	let dimens = [
@@ -227,6 +287,15 @@ var XnorGate = function(x, y) {
 inherits(XnorGate, Gate);
 XnorGate.prototype.getOutput = function() {
 	return !(this.nodeA ? !this.nodeB : this.nodeB);
+}
+XnorGate.prototype.isSelected = function(x, y) {
+	let hitBoxVerts = this.getHitBoxVerts();
+	return (x > hitBoxVerts[0].x && y > hitBoxVerts[0].y) && (x < hitBoxVerts[1].x && y < hitBoxVerts[1].y);
+}
+XnorGate.prototype.getHitBoxVerts = function() {
+	topLeft = new Point(grid.getOrigin().x + this.x - grid.getGridSize(), grid.getOrigin().y + this.y);
+	bottomRight = new Point(grid.getOrigin().x + this.x + 5*grid.getGridSize(), grid.getOrigin().y + this.y + 4*grid.getGridSize());
+	return [topLeft, bottomRight];
 }
 XnorGate.prototype.getDrawingDimens = function() {
 	let dimens = [
