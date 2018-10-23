@@ -170,14 +170,6 @@ function mouseClicked() {
 	let sideNav = document.getElementById("mySidenav");
 	let workspace = document.getElementById("workspacediv");
 	if (mouseButton == LEFT) { // place component
-		// let componentSelected = false;
-		// for (i = 0; i < componentList.length; i++) {
-		// 	componentSelected = componentList[i].isSelected(mouseX, mouseY);
-		// 	if (componentSelected) {
-		// 		console.log("selected!");
-		// 		break;
-		// 	}
-		// }
 		if (!COMPONENT_SELECTED) { // dont place component if mouse is inside hitbox of another component
 			if (mouseX > 0 && mouseY > 0 && mouseX < workspace.clientWidth - sideNav.clientWidth) { // sideNav doesnt change workspacediv size
 				// snap to grid code

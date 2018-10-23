@@ -86,11 +86,30 @@ function mouseDragged() {
 			hitBoxVerts = selectedComponent.getHitBoxVerts();
 			let componentWidth = hitBoxVerts[1].x - hitBoxVerts[0].x;
 			let componentHeight = hitBoxVerts[1].y - hitBoxVerts[0].y
-			selectedComponent.setXY(mouseX - componentWidth/5, mouseY - componentHeight/2);
+			selectedComponent.setXY(mouseX - componentWidth/5 - grid.getOrigin().x, mouseY - componentHeight/2 - grid.getOrigin().y);
 		}
 	}
 }
 
 function mouseReleased() {
 	if (mouseButton == CENTER) document.getElementById("workspacediv").style.cursor="auto";
+	if (mouseButton == LEFT) {
+		if (selectedComponent != null) {
+			let x = selectedComponent.x - grid.getOrigin().x;
+			let y = selectedComponent.y - grid.getOrigin().y;
+			xdiff = x % grid.getGridSize();
+			ydiff = y % grid.getGridSize();
+			if (xdiff <= grid.getGridSize() / 2)
+				x -= xdiff;
+			else
+				x += grid.getGridSize() - xdiff;
+
+			if (ydiff <= grid.getGridSize() / 2)
+				y -= ydiff;
+			else
+				y += grid.getGridSize() - ydiff;
+
+			selectedComponent.setXY(x, y);
+		}
+	}
 }
