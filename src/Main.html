@@ -46,20 +46,20 @@
 				<h2>2 8 1 + +</h2>
 			</div>
 			<div id="components">
-				<button class="collapsible" onclick="change('gatesarrow')">Gates <i id="gatesarrow" style="float: right">&#9662;</i></button>
+				<button class="collapsible" onclick="change('gatesarrow')">Gates <scan id="gatesarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
-					<input type="image" src="res/notgate_us.png" class="component-btn" id="notGate" alt="Not Gate" onclick="selectComponent(this.id, component)"></input>
-					<input type="image" src="res/andgate_us.png" class="component-btn" id="andGate" alt="And Gate" onclick="selectComponent(this.id, component)"></input>
-					<input type="image" src="res/orgate_us.png" class="component-btn" id="orGate" alt="Or Gate" onclick="selectComponent(this.id, component)"></input>
-					<input type="image" src="res/xorgate_us.png" class="component-btn" id="xorGate" alt="Xor Gate" onclick="selectComponent(this.id, component)"></input>
-					<input type="image" src="res/nandgate_us.png" class="component-btn" id="nandGate" alt="Nand Gate" onclick="selectComponent(this.id, component)">
+					<input type="image" src="res/andgate_us.png" class="component-btn" id="andGate" alt="And Gate" onclick="selectComponent(this.id, COMPONENT)"></input>
+					<input type="image" src="res/orgate_us.png" class="component-btn" id="orGate" alt="Or Gate" onclick="selectComponent(this.id, COMPONENT)"></input>
+					<input type="image" src="res/xorgate_us.png" class="component-btn" id="xorGate" alt="Xor Gate" onclick="selectComponent(this.id, COMPONENT)"></input>
+					<input type="image" src="res/nandgate_us.png" class="component-btn" id="nandGate" alt="Nand Gate" onclick="selectComponent(this.id, COMPONENT)">
 					</input>
-					<input type="image" src="res/norgate_us.png" class="component-btn" id="norGate" alt="Nor Gate" onclick="selectComponent(this.id, component)"></input>
-					<input type="image" src="res/xnorgate_us.png" class="component-btn" id="xnorGate" alt="Xnor Gate" onclick="selectComponent(this.id, component)">
+					<input type="image" src="res/norgate_us.png" class="component-btn" id="norGate" alt="Nor Gate" onclick="selectComponent(this.id, COMPONENT)"></input>
+					<input type="image" src="res/xnorgate_us.png" class="component-btn" id="xnorGate" alt="Xnor Gate" onclick="selectComponent(this.id, COMPONENT)">
 					</input>
+					<input type="image" src="res/notgate_us.png" class="component-btn" id="notGate" alt="Not Gate" onclick="selectComponent(this.id, COMPONENT)"></input>
 				</div>
 				
-				<button class="collapsible" onclick="change('ioarrow')">IO<i id="ioarrow" style="float: right">&#9662;</i></button>
+				<button class="collapsible" onclick="change('ioarrow')">IO<scan id="ioarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
 					<button class="component-btn">Input Switch</button>
 					<button class="component-btn">Input Button</button>
@@ -68,13 +68,13 @@
 					<button class="component-btn">Clock</button>
 				</div>
 				
-				<button class="collapsible" onclick="change('connarrow')">Connectors<i id="connarrow" style="float: right">&#9662;</i></button>
+				<button class="collapsible" onclick="change('connarrow')">Connectors<scan id="connarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
 					<button class="component-btn">2 Way Connector</button>
 					<button class="component-btn">4 Way Connector</button>
 				</div>
 				
-				<button class="collapsible" onclick="change('muxdarrow')">Mux and Decoder<i id="muxdarrow" style="float: right">&#9662;</i></button>
+				<button class="collapsible" onclick="change('muxdarrow')">Mux and Decoder<scan id="muxdarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
 					<button class="component-btn">2:1 Mux</button>
 					<button class="component-btn">4:2 Mux</button>
@@ -83,7 +83,7 @@
 					<button class="component-btn">4:2 Decoder</button>
 					<button class="component-btn">8:3 Decoder</button>
 				</div>
-				<button class="collapsible" onclick="change('customarrow')">Custom Components<i id="customarrow" style="float: right">&#9662;</i></button>
+				<button class="collapsible" onclick="change('customarrow')">Custom Components<scan id="customarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
 					<p>No custom components</p>
 				</div>
@@ -93,7 +93,7 @@
 			<div id="toolbar">
 				<button class="toolbar-btn"><scan>Start &#9655;</scan></button>
 				<button class="toolbar-btn">Stop &#9633;</button>
-				<button class="toolbar-btn" onclick="component=-1">Select &#8598;</button>
+				<button class="toolbar-btn" onclick="COMPONENT=SELECT">Select &#8598;</button>
 				<button class="toolbar-btn">Pan</button>
 				<button class="toolbar-btn" id="debug-btn" onclick="openRightMenu()">Debug</button>
 				<button class="toolbar-btn" onclick="window.open('https://github.com/trandrew1023/F18HackISU/blob/master/README.md')">Help</button>
@@ -109,6 +109,7 @@ var coll = document.getElementsByClassName("collapsible");
 var tools = document.getElementsByClassName("toolbar-btn");
 var comps = document.getElementsByClassName("component-btn");
 var i;
+var shift = 0;
 
 for (i = 0; i < coll.length; i++) {
 	coll[i].addEventListener("click", function() {
@@ -145,6 +146,16 @@ for (i = 0; i < comps.length; i++) {
 	});
 }
 
+deselectAllComponents = function() {
+	let comps = document.getElementsByClassName("component-btn");
+	for (i = 0; i < comps.length; i++) {
+		if (comps[i].id != "") {
+			document.getElementById(comps[i].id).src="res/" + comps[i].id.toLowerCase() + "_us.png";
+		}
+	}
+	COMPONENT = SELECT;
+}
+
 function change(id) {
 	if (document.getElementById(id).innerHTML == "▾") {
 		document.getElementById(id).innerHTML = "▴";
@@ -165,70 +176,75 @@ function selectComponent(id, old) {
 	switch(id) {
 		case "notGate":
 			if (old == NOT_GATE){
-				component = SELECT;
+				COMPONENT = SELECT;
 				break;
 			}
-			component = NOT_GATE;
+			COMPONENT = NOT_GATE;
 			break;
 		case "andGate":
 			if (old == AND_GATE){
-				component = SELECT;
+				COMPONENT = SELECT;
 				break;
 			}
-			component = AND_GATE;
+			COMPONENT = AND_GATE;
 			break;
 		case "orGate":
 			if (old == OR_GATE){
-				component = SELECT;
+				COMPONENT = SELECT;
 				break;
 			}
-			component = OR_GATE;
+			COMPONENT = OR_GATE;
 			break;
 		case "xorGate":
 			if (old == XOR_GATE){
-				component = SELECT;
+				COMPONENT = SELECT;
 				break;
 			}
-			component = XOR_GATE;
+			COMPONENT = XOR_GATE;
 			break;
 		case "nandGate":
 			if (old == NAND_GATE){
-				component = SELECT;
+				COMPONENT = SELECT;
 				break;
 			}
-			component = NAND_GATE;
+			COMPONENT = NAND_GATE;
 			break;
 		case "norGate":
 			if (old == NOR_GATE){
-				component = SELECT;
+				COMPONENT = SELECT;
 				break;
 			}
-			component = NOR_GATE;
+			COMPONENT = NOR_GATE;
 			break;
 		case "xnorGate":
 			if (old == XNOR_GATE){
-				component = SELECT;
+				COMPONENT = SELECT;
 				break;
 			}
-			component = XNOR_GATE;
+			COMPONENT = XNOR_GATE;
 			break;
 		default:
-			component = SELECT;
+			COMPONENT = SELECT;
 			break;
 	}
 }
 document.onkeydown = function(evt) {
     evt = evt || window.event;
     if (evt.keyCode == 27) {
-		let comps = document.getElementsByClassName("component-btn");
-		for (i = 0; i < comps.length; i++) {
-			if (comps[i].id != "") {
-				document.getElementById(comps[i].id).src="res/" + comps[i].id.toLowerCase() + "_us.png";
-			}
-		}
-        component = -1;
+    	console.log("escape key");
+		deselectAllComponents();
     }
+    if (evt.keyCode == 16) {
+    	console.log("shift key down");
+    	shift = 1;
+    } 
 };
+document.onkeyup = function(evt) {
+	if (evt.keyCode == 16) {
+		console.log("shift key up");
+		shift = 0;
+	}
+}
 </script>
 
 </body>
