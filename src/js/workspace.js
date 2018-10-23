@@ -165,6 +165,21 @@ function MouseWheelHandler(e) {
 	}
 }
 
+snapToGrid = function(x, y) {
+	xdiff = x % grid.getGridSize();
+	ydiff = y % grid.getGridSize();
+	if (xdiff <= grid.getGridSize() / 2)
+		x -= xdiff;
+	else
+		x += grid.getGridSize() - xdiff;
+
+	if (ydiff <= grid.getGridSize() / 2)
+		y -= ydiff;
+	else
+		y += grid.getGridSize() - ydiff;
+	return [x,y];
+}
+
 function mouseClicked() {
 	let gate;
 	let sideNav = document.getElementById("mySidenav");
@@ -173,19 +188,9 @@ function mouseClicked() {
 		if (!COMPONENT_SELECTED) { // dont place component if mouse is inside hitbox of another component
 			if (mouseX > 0 && mouseY > 0 && mouseX < workspace.clientWidth - sideNav.clientWidth) { // sideNav doesnt change workspacediv size
 				// snap to grid code
-				let x = mouseX - grid.getOrigin().x;
-				let y = mouseY - grid.getOrigin().y;
-				xdiff = x % grid.getGridSize();
-				ydiff = y % grid.getGridSize();
-				if (xdiff <= grid.getGridSize() / 2)
-					x -= xdiff;
-				else
-					x += grid.getGridSize() - xdiff;
-
-				if (ydiff <= grid.getGridSize() / 2)
-					y -= ydiff;
-				else
-					y += grid.getGridSize() - ydiff;
+				let snappedXY = snapToGrid(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y);
+				let x = snappedXY[0];
+				let y = snappedXY[1];
 
 				// place component
 				switch(COMPONENT) {
