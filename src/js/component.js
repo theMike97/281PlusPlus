@@ -406,6 +406,8 @@ IO.prototype.isSelected = function(x, y) {
  	return (x > hitBoxVerts[0].x && y > hitBoxVerts[0].y) && (x < hitBoxVerts[1].x && y < hitBoxVerts[1].y);
 }
 
+
+// Input
 var Input = function(x, y) {
  	Input.super_.call(this, x, y);
 
@@ -440,5 +442,34 @@ Input.prototype.getDrawingDimens = function() {
 }
 Input.prototype.updateNodes = function() {
 	this.nodes[0].x = origin.x + this.x + 3*grid.getGridSize();
+	this.nodes[0].y = origin.y + this.y + grid.getGridSize();
+}
+
+// Output LED
+var Led = function(x, y) {
+	Input.super_.call(this, x, y);
+
+ 	this.nodes.push(new Node(origin.x + this.x, origin.y + this.y + grid.getGridSize()));
+}
+inherits(Led, IO);
+Led.prototype.getHitBoxVerts = function() {
+	let topLeft = new Point(origin.x + this.x, origin.y + this.y);
+	let bottomRight = new Point(origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y + 2*grid.getGridSize());
+	return [topLeft, bottomRight];
+}
+Led.prototype.getDrawingDimens = function() {
+	let dimens = [
+		[this.x + origin.x, this.y + origin.y, this.x + origin.x + 2*grid.getGridSize(), this.y + origin.y],
+		[this.x + origin.x + 2*grid.getGridSize(), this.y + origin.y, this.x + origin.x + 2*grid.getGridSize(), this.y + origin.y + 2*grid.getGridSize()],
+		[this.x + origin.x + 2*grid.getGridSize(), this.y + origin.y + 2*grid.getGridSize(), this.x + origin.x, this.y + origin.y + 2*grid.getGridSize()],
+		[this.x + origin.x, this.y + origin.y + 2*grid.getGridSize(), this.x + origin.x, this.y + origin.y + 1.25*grid.getGridSize()],
+		[this.x + origin.x, this.y + origin.y, this.x + origin.x, this.y + origin.y + 0.75*grid.getGridSize()],
+		this.state,
+		[this.x + origin.x + grid.getGridSize(), this.y + origin.y + grid.getGridSize(), 1.25*grid.getGridSize(), 1.25*grid.getGridSize()],
+	];
+	return dimens;
+}
+Led.prototype.updateNodes = function() {
+	this.nodes[0].x = origin.x + this.x;
 	this.nodes[0].y = origin.y + this.y + grid.getGridSize();
 }

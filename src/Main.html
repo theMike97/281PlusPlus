@@ -64,7 +64,7 @@
 				<button class="collapsible" onclick="change('ioarrow')">IO<scan id="ioarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
 					<input type="image" src="res/input_us.png" class="component-btn" id="input" alt="Input Switch" onclick="selectComponent(this.id, COMPONENT)"></input>
-					<button class="component-btn">Output LED</button>
+					<input type="image" src="res/led_us.png" class="component-btn" id="led" alt="Output LED" onclick="selectComponent(this.id, COMPONENT)"></input>
 					<button class="component-btn">7 Segment Display</button>
 					<button class="component-btn">Assert</button>
 					<button class="component-btn">Ground</button>
@@ -232,6 +232,13 @@ function selectComponent(id, old) {
 				break;
 			}
 			COMPONENT = INPUT_IO;
+			break;
+		case "led":
+			if (old == LED_IO) {
+				COMPONENT = SELECT;
+				break;
+			}
+			COMPONENT = LED_IO;
 			break;
 		default:
 			COMPONENT = SELECT;

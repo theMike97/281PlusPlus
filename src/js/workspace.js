@@ -28,7 +28,7 @@ function draw() {
 	// let x = 200;
 	// let y = 300;
 	stroke(0);
-	// strokeWeight(2);
+	// strokeWeight(4);
 
 	if (grid.getGridSize() < 5) {
 		strokeWeight(1);
@@ -141,9 +141,24 @@ function draw() {
 			state = compDims[5];
 			// console.log(state);
 			if (!state) {
-				fill(0, 255, 0);
-			} else {
 				fill(0);
+			} else {
+				fill(0, 255, 0);
+			}
+			ellipse(compDims[6][0], compDims[6][1], compDims[6][2], compDims[6][3]);
+			noFill();
+		} else if (component instanceof Led) {
+			line(compDims[0][0], compDims[0][1], compDims[0][2], compDims[0][3]);
+			line(compDims[1][0], compDims[1][1], compDims[1][2], compDims[1][3]);
+			line(compDims[2][0], compDims[2][1], compDims[2][2], compDims[2][3]);
+			line(compDims[3][0], compDims[3][1], compDims[3][2], compDims[3][3]);
+			line(compDims[4][0], compDims[4][1], compDims[4][2], compDims[4][3]);
+			// state indicator
+			state = compDims[5];
+			if (!state) {
+				fill(0);
+			} else {
+				fill(0, 255, 0);
 			}
 			ellipse(compDims[6][0], compDims[6][1], compDims[6][2], compDims[6][3]);
 			noFill();
@@ -253,6 +268,10 @@ function mouseClicked() {
 						break;
 					case INPUT_IO:
 						gate = new Input(x, y);
+						componentList.push(gate);
+						break;
+					case LED_IO:
+						gate = new Led(x, y);
 						componentList.push(gate);
 						break;
 					default:

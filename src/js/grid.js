@@ -65,7 +65,7 @@ function mousePressed() {
 				if (COMPONENT_SELECTED) {
 					selectedComponent = componentList[i];
 					console.log("selected!");
-					if (selectedComponent instanceof IO) {
+					if (selectedComponent instanceof Input) {
 						if (selectedComponent.isStateSelected(mouseX, mouseY)) selectedComponent.state = !selectedComponent.state;
 					}
 					break;
