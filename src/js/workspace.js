@@ -64,6 +64,7 @@ function draw() {
 			line(compDims[4][0], compDims[4][1], compDims[4][2], compDims[4][3]);
 			line(compDims[5][0], compDims[5][1], compDims[5][2], compDims[5][3]);
 			line(compDims[6][0], compDims[6][1], compDims[6][2], compDims[6][3]);
+
 		} else if (component instanceof OrGate) {
 			// or gate body
 			bezier(compDims[0][0], compDims[0][1], compDims[0][2], compDims[0][3], compDims[0][4], compDims[0][5], compDims[0][6], compDims[0][7]);
@@ -141,8 +142,28 @@ function draw() {
 				fill(0);
 			}
 			ellipse(compDims[6][0], compDims[6][1], compDims[6][2], compDims[6][3]);
+			// line(compDims[7][0], compDims[7][1], compDims[7][2], compDims[7][3]);
 			stroke(0);
 			noFill();
+			component.updateNodes();
+
+			// if (component.out.isOverNode(mouseX, mouseY)) {
+			// 	strokeWeight(1);
+			// 	console.log("node hovering");
+			// 	rect(component.out.x - 0.25*grid.getGridSize(), component.out.y - 0.25*grid.getGridSize(), 0.5*grid.getGridSize(), 0.5*grid.getGridSize());
+			// 	strokeWeight(2);
+			// }
+			// rect(component.out.x - 0.25*grid.getGridSize(), component.out.y - 0.25*grid.getGridSize(), 0.5*grid.getGridSize(), 0.5*grid.getGridSize());
+		}
+		component.updateNodes();
+		let nodes = component.getNodes();
+		for (i = 0; i < nodes.length; i++) {
+			if (nodes[i].isOverNode(mouseX, mouseY)) {
+				strokeWeight(1);
+				console.log("node hovering");
+				rect(nodes[i].x - 0.25*grid.getGridSize(), nodes[i].y - 0.25*grid.getGridSize(), 0.5*grid.getGridSize(), 0.5*grid.getGridSize());
+				strokeWeight(2);
+			}
 		}
 	}
 }

@@ -11,6 +11,7 @@ inherits = function(ctor, superCtor) {
 };
 // base component (always has a position)
 var Component = function(x, y) {
+	this.nodes = [];
 	this.x = x;
 	this.y = y;
 }
@@ -24,6 +25,9 @@ Component.prototype.changeXY = function(offsetx, offsety) {
 }
 Component.prototype.getXY = function() {
 	return new Point(this.x, this.y);
+}
+Component.prototype.getNodes = function() {
+	return this.nodes;
 }
 // Component.prototype.isSelected = function(x, y) { // looks at mouse x/y to determine if mouse is hovering
 // 	let isSelected = false;
@@ -40,16 +44,16 @@ Component.prototype.getXY = function() {
 var Gate = function(x, y) {
 	Gate.super_.call(this, x, y);
 
-	this.nodeA = false;
-	this.nodeB = false;
-	this.out = false;
+	// this.nodeA = null;
+	// this.nodeB = null;
+	// this.out = null;
 }
 inherits(Gate, Component);
-Gate.prototype.setInputNodes = function(nodeA, nodeB) {
+// Gate.prototype.setInputNodes = function(nodeA, nodeB) {
 	
-	this.nodeA = nodeA;
-	this.nodeB = nodeB;
-}
+// 	this.nodeA = nodeA;
+// 	this.nodeB = nodeB;
+// }
 
 // Not Gate
 var NotGate = function(x, y) {
@@ -83,6 +87,10 @@ NotGate.prototype.getDrawingDimens = function() {
 // And Gate
 var AndGate = function(x, y) {
 	AndGate.super_.call(this, x, y);
+
+	this.nodes.push(new Node(grid.getOrigin().x - grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y));
+	this.nodes.push(new Node(grid.getOrigin().x - grid.getGridSize() + this.x, grid.getOrigin().y + 3*grid.getGridSize() + this.y));
+	this.nodes.push(new Node(grid.getOrigin().x + 5*grid.getGridSize() + this.x, grid.getOrigin().y + 2*grid.getGridSize() + this.y)); // last is always output node
 }
 inherits(AndGate, Gate);
 AndGate.prototype.getOutput = function() {
@@ -106,10 +114,18 @@ AndGate.prototype.getDrawingDimens = function() {
 		[grid.getOrigin().x + this.x, grid.getOrigin().y + grid.getGridSize() + this.y, grid.getOrigin().x - grid.getGridSize() + this.x, grid.getOrigin().y + grid.getGridSize() + this.y], // nodeA
 		[grid.getOrigin().x + this.x, grid.getOrigin().y +3*grid.getGridSize() + this.y, grid.getOrigin().x - grid.getGridSize() + this.x, grid.getOrigin().y + 3*grid.getGridSize() + this.y], // nodeB
 		[grid.getOrigin().x + 4*grid.getGridSize() + this.x, grid.getOrigin().y + 2*grid.getGridSize() + this.y, grid.getOrigin().x + 5*grid.getGridSize() + this.x, grid.getOrigin().y + 2*grid.getGridSize() + this.y] // out
-		];
+	];
 
-		return dimens;
-	}
+	return dimens;
+}
+AndGate.prototype.updateNodes = function() {
+	this.nodes[0].x = origin.x - grid.getGridSize() + this.x;
+	this.nodes[0].y = origin.y + grid.getGridSize() + this.y;
+	this.nodes[1].x = origin.x - grid.getGridSize() + this.x;
+	this.nodes[1].y = origin.y + 3*grid.getGridSize() + this.y;
+	this.nodes[2].x = origin.x + 5*grid.getGridSize() + this.x;
+	this.nodes[2].y = origin.y + 2*grid.getGridSize() + this.y;
+}
 
 // Or Gate
 var OrGate = function(x, y) {
@@ -321,15 +337,15 @@ var IO = function(x, y) {
 
  	this.state = false;
  	// IO components dont have to use all inputs.  Will start with nodeA
- 	this.nodeA = false;
- 	this.nodeB = false;
- 	this.nodeC = false;
- 	this.nodeD = false;
- 	this.nodeE = false;
- 	this.nodeF = false;
- 	this.nodeG = false;
+ 	this.nodeA = null;
+ 	this.nodeB = null;
+ 	this.nodeC = null;
+ 	this.nodeD = null;
+ 	this.nodeE = null;
+ 	this.nodeF = null;
+ 	this.nodeG = null;
  	// IO components dont have to use out (7 segment, gnd, Vcc)
- 	this.out = false;
+ 	this.out = null;
 }
 inherits(IO, Component);
 IO.prototype.isSelected = function(x, y) {
@@ -339,6 +355,8 @@ IO.prototype.isSelected = function(x, y) {
 
 var Input = function(x, y) {
  	Input.super_.call(this, x, y);
+
+ 	this.nodes.push(new Node(origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + grid.getGridSize()));
 }
 inherits(Input, IO);
 Input.prototype.getStateHitBoxVerts = function() {
@@ -350,7 +368,7 @@ Input.prototype.isStateSelected = function(x, y) {
 	let stateHitBoxVerts = this.getStateHitBoxVerts();
  	return (x > stateHitBoxVerts[0].x && y > stateHitBoxVerts[0].y) && (x < stateHitBoxVerts[1].x && y < stateHitBoxVerts[1].y);
 }
- Input.prototype.getHitBoxVerts = function() {
+Input.prototype.getHitBoxVerts = function() {
 	let topLeft = new Point(grid.getOrigin().x + this.x, grid.getOrigin().y + this.y);
 	let bottomRight = new Point(grid.getOrigin().x + this.x + 3*grid.getGridSize(), grid.getOrigin().y + this.y + 2*grid.getGridSize());
 	return [topLeft, bottomRight];
@@ -360,10 +378,15 @@ Input.prototype.getDrawingDimens = function() {
 	[origin.x + this.x, origin.y + this.y, origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y],
 	[origin.x + this.x, origin.y + this.y, origin.x + this.x, origin.y + this.y + 2*grid.getGridSize()],
 	[origin.x + this.x, origin.y + this.y + 2*grid.getGridSize(), origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y + 2*grid.getGridSize()],
-	[origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y, origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + grid.getGridSize()],
-	[origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y + 2*grid.getGridSize(), origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + grid.getGridSize()],
+	[origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y, origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + grid.getGridSize()], // out
+	[origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y + 2*grid.getGridSize(), origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + grid.getGridSize()], // out
 	this.state,
 	[origin.x + this.x + grid.getGridSize(), origin.y + this.y + grid.getGridSize(), grid.getGridSize()*1.25, grid.getGridSize()*1.25],
+	// [this.getNodeHitBoxVerts()[0].x, this.getNodeHitBoxVerts()[0].y, this.getNodeHitBoxVerts()[1].x, this.getNodeHitBoxVerts()[1].y],
 	];
 	return dimens;
+}
+Input.prototype.updateNodes = function() {
+	this.nodes[0].x = origin.x + this.x + 3*grid.getGridSize();
+	this.nodes[0].y = origin.y + this.y + grid.getGridSize();
 }
