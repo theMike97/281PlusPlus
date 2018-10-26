@@ -1,9 +1,3 @@
-var grid = null;
-
-var componentList = [];
-
-var COMPONENT = -1;
-
 function setup() {
 	canvasdiv = select("#workspacediv");
 	let canvasWidth = canvasdiv.width;
@@ -33,9 +27,9 @@ function draw() {
 	// draw sample and gate for use later.
 	// let x = 200;
 	// let y = 300;
-
 	stroke(0);
 	// strokeWeight(2);
+
 	if (grid.getGridSize() < 5) {
 		strokeWeight(1);
 	} else if (grid.getGridSize() < 10) {
@@ -129,6 +123,26 @@ function draw() {
 			line(compDims[7][0], compDims[7][1], compDims[7][2], compDims[7][3]);
 			line(compDims[8][0], compDims[8][1], compDims[8][2], compDims[8][3]);
 			line(compDims[9][0], compDims[9][1], compDims[9][2], compDims[9][3]);
+		} else if (component instanceof Input) {
+			// Input Body
+			line(compDims[0][0], compDims[0][1], compDims[0][2], compDims[0][3]);
+			line(compDims[1][0], compDims[1][1], compDims[1][2], compDims[1][3]);
+			line(compDims[2][0], compDims[2][1], compDims[2][2], compDims[2][3]);
+			line(compDims[3][0], compDims[3][1], compDims[3][2], compDims[3][3]);
+			line(compDims[4][0], compDims[4][1], compDims[4][2], compDims[4][3]);
+			// State indicator
+			state = compDims[5];
+			// console.log(state);
+			if (!state) {
+				stroke(0, 255, 0);
+				fill(0, 255, 0);
+			} else {
+				stroke(0);
+				fill(0);
+			}
+			ellipse(compDims[6][0], compDims[6][1], compDims[6][2], compDims[6][3]);
+			stroke(0);
+			noFill();
 		}
 	}
 }
@@ -222,8 +236,12 @@ function mouseClicked() {
 						gate = new XnorGate(x, y);
 						componentList.push(gate);
 						break;
+					case INPUT_IO:
+						gate = new Input(x, y);
+						componentList.push(gate);
+						break;
 					default:
-					break;
+						break;
 				}
 			}
 		}
