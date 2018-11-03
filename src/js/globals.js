@@ -2,11 +2,13 @@
 var grid = null;
 
 var componentList = [];
+var wires = [];
 
 var COMPONENT = -1;
 
 // component.js
 var COMPONENT_SELECTED = false;
+var NODE_SELECTED = false;
 
 const SELECT = -1;
 const NOT_GATE = 0;
@@ -24,3 +26,7 @@ const SEG_7_IO = 9;
 var mousePt = null;
 var origin = null;
 var panSelected = false;
+
+// node.js
+IN = 0;
+OUT = 1;

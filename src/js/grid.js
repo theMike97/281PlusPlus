@@ -54,15 +54,32 @@ function Grid() {
 
 // i want a mouse clicked for placing components onto the workspace
 var selectedComponent = null;
+let selectedNode = null;
+let currentWire = null;
+let dummyNode = null;
+
 function mousePressed() {
+	NODE_SELECTED = false;
 	if (mouseButton == CENTER) {
 		mousePt.setPoint(mouseX, mouseY);
 	}
 	if (mouseButton == LEFT) {
 		if (!panSelected) {
 			for (i = 0; i < componentList.length; i++) { // select component
+				for (let j=0; j < componentList[i].nodes.length; j++) {
+					if (componentList[i].nodes[j].isOverNode(mouseX, mouseY)) {
+						NODE_SELECTED = true;
+						dummyNode = new Node(mouseX, mouseY);
+						selectedNode = componentList[i].nodes[j];
+						currentWire = new Wire(selectedNode, dummyNode); // create wire 0 dimension wire
+						currentWire.nodeA = selectedNode;
+						wires.push(currentWire);
+						// console.log(wires);
+						// console.log(selectedNode);
+					}
+				}
 				COMPONENT_SELECTED = componentList[i].isSelected(mouseX, mouseY);
-				if (COMPONENT_SELECTED) {
+				if (COMPONENT_SELECTED && !NODE_SELECTED) {
 					selectedComponent = componentList[i];
 					console.log("selected!");
 					if (selectedComponent instanceof Input) {
@@ -91,7 +108,7 @@ function mouseDragged() {
 	}
 	if (mouseButton == LEFT) {
 		if (!panSelected) {
-			if (COMPONENT_SELECTED) { // drag selected component
+			if (COMPONENT_SELECTED && !NODE_SELECTED) { // drag selected component
 				hitBoxVerts = selectedComponent.getHitBoxVerts();
 
 				let snappedXY = snapToGrid(
@@ -100,6 +117,10 @@ function mouseDragged() {
 				);
 
 				selectedComponent.setXY(snappedXY[0], snappedXY[1]);
+			} else if (NODE_SELECTED) {
+				selectedNode = null;
+				currentWire.nodeB.x = mouseX;
+				currentWire.nodeB.y = mouseY;
 			}
 		} else {
 			panScreen(mouseX, mouseY);
@@ -110,5 +131,20 @@ function mouseDragged() {
 function mouseReleased() {
 	document.getElementById("workspacediv").style.cursor="auto";
 	selectedComponent = null; // after we're done dragging, nothing is selected
-	wasDragged = false;
+	for (i = 0; i < componentList.length; i++) {
+		for (let j=0; j < componentList[i].nodes.length; j++) {
+			if (componentList[i].nodes[j].isOverNode(mouseX, mouseY)) {
+				selectedNode = componentList[i].nodes[j];
+				NODE_SELECTED = true;
+			}
+		}
+	}
+	if (NODE_SELECTED) {
+		if (selectedNode != null) {
+			currentWire.nodeB = selectedNode;
+			console.log(selectedNode);
+		} else {
+			wires.pop();
+		}
+	}
 }

@@ -52,12 +52,12 @@ inherits(Gate, Component);
 var NotGate = function(x, y) {
 	NotGate.super_.call(this, x, y);
 
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x + 3*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y));
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x + 3*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y, OUT));
 }
 inherits(NotGate, Gate);
-NotGate.prototype.getOutput = function() {
-	return !this.nodes[0];
+NotGate.prototype.updateOutput = function() {
+	this.nodes[1].state = !this.nodes[0].state;
 }
 NotGate.prototype.getHitBoxVerts = function() { //returns point at top left and bottom right
 	topLeft = new Point(origin.x + this.x - grid.getGridSize(), origin.y + this.y);
@@ -90,13 +90,14 @@ NotGate.prototype.updateNodes = function() {
 var AndGate = function(x, y) {
 	AndGate.super_.call(this, x, y);
 
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y)); // last is always output node
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y, OUT)); // last is always output node
 }
 inherits(AndGate, Gate);
-AndGate.prototype.getOutput = function() {
-	return this.nodes[0] && this.nodes[1];
+AndGate.prototype.updateOutput = function() {
+	this.nodes[2].state = this.nodes[0].state && this.nodes[1].state;
+	// console.log(this.nodes[2].state);
 }
 AndGate.prototype.getHitBoxVerts = function() {
 	topLeft = new Point(origin.x + this.x - grid.getGridSize(), origin.y + this.y);
@@ -133,13 +134,13 @@ AndGate.prototype.updateNodes = function() {
 var OrGate = function(x, y) {
 	OrGate.super_.call(this, x, y);
 
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y)); // last is always output node
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y, OUT)); // last is always output node
 }
 inherits(OrGate, Gate);
-OrGate.prototype.getOutput = function() {
-	return this.nodeA || this.nodeB;
+OrGate.prototype.updateOutput = function() {
+	this.nodes[2].state = this.nodes[0].state || this.nodes[1].state;
 }
 OrGate.prototype.isSelected = function(x, y) {
 	let hitBoxVerts = this.getHitBoxVerts();
@@ -185,13 +186,13 @@ OrGate.prototype.updateNodes = function() {
 var XorGate = function(x, y) {
 	XorGate.super_.call(this, x, y);
 
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y)); // last is always output node
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y, OUT)); // last is always output node
 }
 inherits(XorGate, Gate);
-XorGate.prototype.getOutput = function() {
-	return this.nodeA ? !this.nodeB : this.nodeB;
+XorGate.prototype.updateOutput = function() {
+	this.nodes[2].state = !(this.nodes[0].state ? !this.nodes[1].state : this.nodes[1].state);
 }
 XorGate.prototype.isSelected = function(x, y) {
 	let hitBoxVerts = this.getHitBoxVerts();
@@ -241,13 +242,13 @@ XorGate.prototype.updateNodes = function() {
 var NandGate = function(x, y) {
 	NandGate.super_.call(this, x, y);
 
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y)); // last is always output node
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y, OUT)); // last is always output node
 }
 inherits(NandGate, Gate);
-NandGate.prototype.getOutput = function() {
-	return !(this.nodeA && this.nodeB);
+NandGate.prototype.updateOutput = function() {
+	this.nodes[2].state = !(this.nodes[0].state && this.nodes[1].state);
 }
 NandGate.prototype.isSelected = function(x, y) {
 	let hitBoxVerts = this.getHitBoxVerts();
@@ -284,13 +285,13 @@ NandGate.prototype.updateNodes = function() {
 var NorGate = function(x, y) {
 	NorGate.super_.call(this, x, y);
 
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y)); // last is always output node
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y, OUT)); // last is always output node
 }
 inherits(NorGate, Gate);
-NorGate.prototype.getOutput = function() {
-	return !(this.nodeA || this.nodeB);
+NorGate.prototype.updateOutput = function() {
+	this.nodes[2].state = !(this.nodes[0].state || this.nodes[1].state);
 }
 NorGate.prototype.isSelected = function(x, y) {
 	let hitBoxVerts = this.getHitBoxVerts();
@@ -337,13 +338,13 @@ NorGate.prototype.updateNodes = function() {
 var XnorGate = function(x, y) {
 	XnorGate.super_.call(this, x, y);
 
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y));
-	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y)); // last is always output node
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x - grid.getGridSize() + this.x, origin.y + 3*grid.getGridSize() + this.y, IN));
+	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y, OUT)); // last is always output node
 }
 inherits(XnorGate, Gate);
-XnorGate.prototype.getOutput = function() {
-	return !(this.nodeA ? !this.nodeB : this.nodeB);
+XorGate.prototype.updateOutput = function() {
+	this.nodes[2].state = this.nodes[0].state ? !this.nodes[1].state : this.nodes[1].state;
 }
 XnorGate.prototype.isSelected = function(x, y) {
 	let hitBoxVerts = this.getHitBoxVerts();
@@ -411,7 +412,7 @@ IO.prototype.isSelected = function(x, y) {
 var Input = function(x, y) {
  	Input.super_.call(this, x, y);
 
- 	this.nodes.push(new Node(origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + grid.getGridSize()));
+ 	this.nodes.push(new Node(origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + grid.getGridSize(), OUT));
 }
 inherits(Input, IO);
 Input.prototype.getStateHitBoxVerts = function() {
@@ -444,12 +445,16 @@ Input.prototype.updateNodes = function() {
 	this.nodes[0].x = origin.x + this.x + 3*grid.getGridSize();
 	this.nodes[0].y = origin.y + this.y + grid.getGridSize();
 }
+Input.prototype.updateOutput = function() {
+	this.nodes[0].state = this.state;
+	// console.log(this.nodes[0].state);
+}
 
 // Output LED
 var Led = function(x, y) {
 	Input.super_.call(this, x, y);
 
- 	this.nodes.push(new Node(origin.x + this.x, origin.y + this.y + grid.getGridSize()));
+ 	this.nodes.push(new Node(origin.x + this.x, origin.y + this.y + grid.getGridSize(), IN));
 }
 inherits(Led, IO);
 Led.prototype.getHitBoxVerts = function() {
@@ -472,4 +477,7 @@ Led.prototype.getDrawingDimens = function() {
 Led.prototype.updateNodes = function() {
 	this.nodes[0].x = origin.x + this.x;
 	this.nodes[0].y = origin.y + this.y + grid.getGridSize();
+}
+Led.prototype.updateOutput = function() {
+	this.state = this.nodes[0].state;
 }

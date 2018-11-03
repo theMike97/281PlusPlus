@@ -7,7 +7,7 @@
     <!-- CSS/Stylesheets -->
     <link rel="stylesheet" href="window.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
 
     <!-- Custom Javascript -->
     <script src="js/workspace.js" type="text/javascript"></script>
@@ -15,16 +15,18 @@
     <script src="js/component.js" type="text/javascript"></script>
     <script src="js/globals.js" type="text/javascript"></script>
     <script src="js/node.js" type="text/javascript"></script>
+    <script src="js/wire.js" type="text/javascript"></script>
 
     <!-- P5*JS libs -->
     <script src="js/libs/p5.js" type="text/javascript"></script>
-    <script src="js/libs/p5.dom.js" type="text/javascript"></script>
+    <!-- I dont want to use p5 DOM libraries because they are SLOOWWWW -->
+    <!-- <script src="js/libs/p5.dom.js" type="text/javascript"></script> -->
 
 
 </head>
 <body>
 	<div id="mySidenav" class="sidenav">
-  		<a href="javascript:void(0)" class="closebtn" id="nav" onclick="closeRightMenu()">&times;</a>
+  		<button class="closebtn" id="nav" onclick="closeRightMenu()">&times;</button>
   		<button class="collapsible" id="nav">Inputs</button>
   		<div class="component-content" id="debug-content">
   			Input dump here
@@ -175,7 +177,7 @@ function closeRightMenu() {
 }
 
 function selectComponent(id, old) {
-	console.log(old);
+	// console.log(old);
 	switch(id) {
 		case "notGate":
 			if (old == NOT_GATE){

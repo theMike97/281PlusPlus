@@ -1,6 +1,7 @@
-var Node = function(x, y) {
+var Node = function(x, y, direction) {
 	this.x = origin.x + x;
 	this.y = origin.x + y;
+	this.direction = direction;
 	this.state = false; // might have a state to communicate with wires
 }
 Node.prototype.getHitBoxVerts = function() {

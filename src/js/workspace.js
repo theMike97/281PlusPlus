@@ -1,7 +1,7 @@
 function setup() {
-	canvasdiv = select("#workspacediv");
-	let canvasWidth = canvasdiv.width;
-	let canvasHeight = canvasdiv.height;
+	let canvasdiv = document.getElementById("workspacediv");
+	let canvasWidth = canvasdiv.clientWidth;
+	let canvasHeight = canvasdiv.clientHeight;
 
 	canvas = createCanvas(canvasWidth, canvasHeight);
 	canvas.parent("workspacediv");
@@ -38,12 +38,16 @@ function draw() {
 		strokeWeight(2);
 	}
 	var i;
+
 	// draw all gates
 	noFill();
 
 	let component = null;
 	let compDims = null;
+	let wire = null;
+
 	for (i = 0; i < componentList.length; i++) {
+
 		component = componentList[i];
 		compDims = component.getDrawingDimens();
 		if (component instanceof NotGate) {
@@ -65,6 +69,8 @@ function draw() {
 			line(compDims[4][0], compDims[4][1], compDims[4][2], compDims[4][3]);
 			line(compDims[5][0], compDims[5][1], compDims[5][2], compDims[5][3]);
 			line(compDims[6][0], compDims[6][1], compDims[6][2], compDims[6][3]);
+
+			// console.log(component.state);
 
 		} else if (component instanceof OrGate) {
 			// or gate body
@@ -147,6 +153,7 @@ function draw() {
 			}
 			ellipse(compDims[6][0], compDims[6][1], compDims[6][2], compDims[6][3]);
 			noFill();
+			// console.log(component);
 		} else if (component instanceof Led) {
 			line(compDims[0][0], compDims[0][1], compDims[0][2], compDims[0][3]);
 			line(compDims[1][0], compDims[1][1], compDims[1][2], compDims[1][3]);
@@ -163,17 +170,33 @@ function draw() {
 			ellipse(compDims[6][0], compDims[6][1], compDims[6][2], compDims[6][3]);
 			noFill();
 		}
+
 		component.updateNodes();
+		component.updateOutput();
 		let nodes = component.getNodes();
-		// console.log(nodes.length);
+		// console.log(component);
 		for (let j = 0; j < nodes.length; j++) {
 			if (nodes[j].isOverNode(mouseX, mouseY)) {
 				strokeWeight(1);
-				console.log("node hovering");
+				// console.log("node hovering");
 				rect(nodes[j].x - 0.25*grid.getGridSize(), nodes[j].y - 0.25*grid.getGridSize(), 0.5*grid.getGridSize(), 0.5*grid.getGridSize());
 				strokeWeight(2);
 			}
 		}
+	}
+	// draw wires after component nodes are updated.
+	for (i = 0; i < wires.length; i++) {
+		wire = wires[i];
+		compDims = wire.getDrawingDimens();
+
+		if (wire.state) {
+			stroke(0,255,0);
+		}
+		line(compDims[0][0], compDims[0][1], compDims[0][2], compDims[0][3]);
+		stroke(0);
+
+		wire.updateState();
+		// console.log(wire.state);
 	}
 }
 
@@ -188,8 +211,8 @@ function MouseWheelHandler(e) {
     		let newX = 0;
     		let newY = 0;
     		for (i = 0; i < componentList.length; i++) {
-    			offsetX = componentList[i].getXY().x / grid.getGridSize();
-    			offsetY = componentList[i].getXY().y / grid.getGridSize();
+    			offsetX = componentList[i].x / grid.getGridSize();
+    			offsetY = componentList[i].y / grid.getGridSize();
     			componentList[i].changeXY(delta * offsetX, delta * offsetY);
     		}
     		grid.changeGridSize(delta);
@@ -199,8 +222,8 @@ function MouseWheelHandler(e) {
     		let newX = 0;
     		let newY = 0;
     		for (i = 0; i < componentList.length; i++) {
-    			offsetX = componentList[i].getXY().x / grid.getGridSize();
-    			offsetY = componentList[i].getXY().y / grid.getGridSize();
+    			offsetX = componentList[i].x / grid.getGridSize();
+    			offsetY = componentList[i].y / grid.getGridSize();
     			componentList[i].changeXY(delta * offsetX, delta * offsetY);
     		}
     		grid.changeGridSize(delta);
@@ -221,6 +244,7 @@ snapToGrid = function(x, y) {
 		y -= ydiff;
 	else
 		y += grid.getGridSize() - ydiff;
+
 	return [x,y];
 }
 
@@ -229,7 +253,7 @@ function mouseClicked() {
 	let sideNav = document.getElementById("mySidenav");
 	let workspace = document.getElementById("workspacediv");
 	if (mouseButton == LEFT) { // place component
-		if (!COMPONENT_SELECTED) { // dont place component if mouse is inside hitbox of another component
+		if (!COMPONENT_SELECTED && !NODE_SELECTED) { // dont place component if mouse is inside hitbox of another component
 			if (mouseX > 0 && mouseY > 0 && mouseX < workspace.clientWidth - sideNav.clientWidth) { // sideNav doesnt change workspacediv size
 				// snap to grid code
 				let snappedXY = snapToGrid(mouseX - grid.getOrigin().x, mouseY - grid.getOrigin().y);

@@ -39,6 +39,8 @@ html, body {
 #components {
 	padding: 0em;
 	background: #11111a;
+	overflow-y: auto;
+	height: calc(100vh - 70px);
 }
 #toolbar{
 	padding: 0em, 1em;
@@ -102,7 +104,7 @@ html, body {
     right: 0;
     background-color: #11111a;
     overflow-x: hidden;
-    transition: 0.7s;
+    transition: 0.5s;
     padding-top: 60px;
 }
 #nav {
@@ -125,6 +127,30 @@ html, body {
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
+    background: none;
+    border: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #11111a; 
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #a1a1a1; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #f1f1f1;
 }
 
 @media screen and (max-height: 450px), (max-width: 1300px) {
@@ -135,6 +161,10 @@ html, body {
 	}
 	html, body {font-size: 15px;}
 	#component-label {font-size: 15px}
+	#components {
+		overflow-y: hidden;
+		height: 100%;
+	}
 	.collapsible {font-size: 15px;}
 	.component-content {font-size: 14px;}
 	.toolbar-btn {
