@@ -8,6 +8,11 @@
 // wire x y
 
 loadString = function(string) { // 	TODO add more components
+	// In strange case where string passed to parser.js is null, will load blank project and show alert
+	if (string == null) {
+		alert("Project returned as null - will load blank project.")
+		return;
+	}
 	let instrs = string.split(";"); // instr is line by line array of stuff
 	// console.log(instrs);
 

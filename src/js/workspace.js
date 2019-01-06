@@ -15,8 +15,13 @@ function setup() {
 	// let str = "2 8 1 + +;and 260 100;input 140 80;led 440 120;clk 100 180 1000;wire 200 100 240 120;wire 360 140 440 140;wire 200 220 240 160";
 	if (typeof(Storage) != "undefined") {
 		let str = localStorage.getItem("string");
-		if (str != "") {
+		// str == null condition for dev purposes so Main.html can be run without logging in - will open blank project with no warning
+		if (str == null) {
+			alert("Cannot load project! - Dev reasons");
+		} else if (str != "") {
 			loadString(str);
+		} else {
+			alert("Cannot load project!");
 		}
 	} else {
 		alert("Cannot load project!");
