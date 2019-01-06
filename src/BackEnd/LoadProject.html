@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
+<script src = "firebase.js"></script>
+<script src = "projects.js"></script>
+
+</head>
+<body>
+
+<h1>Welcome to where you can Load or Delete a Project.</h1>
+<p id="demo"></p>
+<input id="projectName" type="text">
+      <input onClick="loadProject(document.getElementById('projectName').value)" type="button" id="Load Project" name="Load Project" value="Load Project" />
+	  <input onClick="deleteProject(document.getElementById('projectName').value)" type="button" id="Delete Project" name="Delete Project" value="Delete Project" />
+    </p>
+	 <input onClick="signOut()" type="button" id="Log Out" name="Log Out" value="Log Out" />
+<script>
+
+listProjects();
+
+
+function signOut(){
+	firebase.auth().signOut();
+	window.location="login.html";
+}
+
+
+function deleteProject(pName){
+	var DataBaseRef = firebase.database().ref();
+	var user = "";
+	firebase.auth().onAuthStateChanged(function(user) {
+	  if (user) {
+		user = firebase.auth().currentUser;
+		//var name = user.displayName; //this will display the current user name
+		uid = user.uid
+			DataBaseRef.child("User").child(uid).child("Saved").child(pName).remove();
+			alert("Deleted Project "+pName);
+	  }
+	});
+	location.reload();
+}	
+
+function listProjects(){
+	var DataBaseRef = firebase.database().ref();
+	var user = "none";
+	firebase.auth().onAuthStateChanged(function(user) {
+	  if (user) {
+		user = firebase.auth().currentUser;
+		//var name = user.displayName; //this will display the current user name
+		uid = user.uid
+		var string="";
+		var delayInMilliseconds = 750; //0.75 second
+		setTimeout(function() {
+			DataBaseRef.child("User").child(uid).child("Saved").once('value', function(snapshot) {
+			  snapshot.forEach(function(childSnapshot) {
+				var childKey = childSnapshot.key;
+				var childData = childSnapshot.val();
+				string=string+childKey+"<br />";
+			  });
+			});					//chagne "document.getElementById("demo").innerHTML=string; " to where/what you want the code to be displayed
+			setTimeout(function() {document.getElementById("demo").innerHTML=string;}, delayInMilliseconds);
+		}, delayInMilliseconds);
+	  }
+	});
+}
+
+function loadProject(pName){
+	var DataBaseRef = firebase.database().ref();
+	var user = firebase.auth().currentUser;
+	uid = user.uid
+	var string="String to give to front end for project "+pName+": ";
+	DataBaseRef.child("User").child(uid).child("Saved").child(pName).once('value', function(snapshot) {
+	  var data=snapshot.val();
+	 string= string+data;
+	});
+	var delayInMilliseconds = 500; //1 second
+	setTimeout(function() {
+	 alert(string);		//change this to " return string; " to get it to return a string when the function is called
+	}, delayInMilliseconds);
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+  <title>281++ Home</title>
+  <link rel="stylesheet" href="projects.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+  <script src="../BackEnd/projects.js"></script>
+  <script src="../BackEnd/firebase.js"></script>
+  <script src="../BackEnd/login.js"></script>
+  <script src="../js/globals.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <div id="home">
+    <nav class="navbar navbar-expand-lg navbar-default bg-default">
+      <a class="navbar-brand" href="../Home.html">281++</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+          <!-- <li class="nav-item">
+            <a href="../Home.html" class="nav-link">Help</a>
+          </li> -->
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a id="name" href="#" class="nav-link"></a>
+          </li>
+          <li class="nav-item">
+            <a id="logout" href="#" class="nav-link" onclick="signOut()">Logout</a>
+        </ul>
+      </div>
+    </nav>
+    <div class="wrapper">
+      <nav id="sidebar">
+        <div class="sidebar-header">
+          <h3 id="welcome">
+            Welcome
+          </h3>
+        </div>
+        <ul class="list-unstyled components">
+          <li>
+            <a href="../Main.html" onclick="sendEmptyProject();">Start New Project</a>
+          </li>
+          <li>
+            <a onclick="listProjects()" href="#">Saved Projects</a>
+          </li>
+          <li>
+            <a onclick="printClasses()" href="#">Classes</a>
+          </li>
+          <li>
+            <a onclick="printPortfolio()" href="#">Portfolio</a>
+          </li>
+          <li>
+            <a onclick="printSettings()" href="#">Settings</a>
+          </li>
+        </ul>
+      </nav>
+      <div id="demo" class="container">
+      </div>
+    </div>
+  </div>
+  <footer id="footer" class="page-footer font-small">
+    <div class="container-fluid text-center text-md-left">
+      <div class="row">
+        <div class="col-md-6 mt-md-0 mt-3">
+          <h5 class="text-uppercase">CS/SE 319</h5>
+          <p>Group 13 Project</p>
+        </div>
+        <hr class="clearfix w-100 d-md-none pb-3">
+        <div class="col-md-3 mb-md-0 mb-3">
+          <h5 class="text-uppercase">Iowa State University</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://canvas.iastate.edu">Canvas</a>
+            </li>
+            <li>
+              <a href="http://cymail.iastate.edu">CyMail</a>
+            </li>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-md-0 mb-3">
+          <h5 class="text-uppercase">Help</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://www.w3schools.com/">w3schools</a>
+            </li>
+            <li>
+              <a href="http://stackoverflow.com">Stack Overflow</a>
+            </li>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> 281++</a>
+    </div>
+  </footer>
+  <script>
+    var widthJ = $(window).width();
+    $("#sidebar").css("width", widthJ / 5);
+    $("#sidebar").css("min-width", "300px");
+    var footerHeight = document.getElementById('footer').clientHeight;
+    var demoHeight = $(window).height() - 50 - footerHeight;
+    $("#demo").css("height", demoHeight);
+    listProjects();
+
+    var firstName;
+    var user;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        user = firebase.auth().currentUser;
+        firstName = user.displayName;
+      }
+    });
+    setTimeout(function() {
+      $("#name").text(firstName);
+      document.getElementById("welcome").innerHTML = "Welcome<br>" + firstName;
+    }, 1000)
+
+    function onclickTest() {
+      alert(widthJ);
+    }
+
+    function printClasses() {
+      document.getElementById("demo").innerHTML =
+        "<h1>You are currently not enrolled in any classes!</h1><img src=\"../images/test.GIF\" alt=\"Test GIF\">";
+    }
+
+    function printPortfolio() {
+      document.getElementById("demo").innerHTML =
+        "<h1>You currently do not have a portfolio!</h1><img src=\"../images/test.GIF\" alt=\"Test GIF\">";
+    }
+
+    function printSettings() {
+      document.getElementById("demo").innerHTML =
+        "<br><br><br><form name=\"myForm\" onsubmit=\"updateUser(fname,email)\" method=\"post\"><h1>Enter new name:</h1><input type=\"text\" name=\"fname\"><br><h1>Enter new email:</h1><input type='text' name='email'><br><input type=\"submit\" value=\"Submit\"><br><br><button type=\"button\" onclick='resetPassword()'>Forgot my password</button></form>";
+    }
+
+    function sendEmptyProject() {
+      if (typeof(Storage) != "undefined") {
+        localStorage.setItem("string", "");
+      } else {
+        alert("U suck.");
+      }
+    }
+
+    function listProjects() {
+      var DataBaseRef = firebase.database().ref();
+      var user = "none";
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          user = firebase.auth().currentUser;
+          uid = user.uid
+          var projects = "<table><tr><th><h1>Projects</h1></th></tr>";
+          var delayInMilliseconds = 500;
+          setTimeout(function() {
+            DataBaseRef.child("User").child(uid).child("Saved").once('value', function(snapshot) {
+              snapshot.forEach(function(childSnapshot) {
+                var childKey = childSnapshot.key;
+                // projects = projects + "<button onclick=\"loadProject(\'" + childKey + "\')\">" + childKey + "</button><hr>";
+                projects += "<tr><td><button id=\"load\"onclick=\"loadProject(\'" + childKey + "\')\">" + childKey + "</button></td><td style=\"text-align:right\"><button onclick=\"deleteProject(\'" + childKey + "\')\"><scan class=\"material-icons\" id=\"delete\">delete</scan></button></td></tr>";
+              });
+            });
+            setTimeout(function() {
+              document.getElementById("demo").innerHTML = projects + "</table>";
+            }, delayInMilliseconds);
+          }, delayInMilliseconds);
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>

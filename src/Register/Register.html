@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+  <title>281++ Home</title>
+
+  <link rel="stylesheet" href="Register.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css"/>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+</head>
+
+<body>
+  <div class="main">
+    <nav class="navbar navbar-expand-lg navbar-default bg-default">
+      <a href="../Home.html" class="navbar-brand">281++</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="../Home.html#before" class="nav-link">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="../Home.html#developers" class="nav-link">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a href="../Home.html#help" class="nav-link">Help</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="#" class="nav-link">Register</a>
+          </li>
+          <li class="nav-item">
+            <a href="../Login/Login.html" class="nav-link">Login</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="home">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Welcome to 281++</h1>
+            <h2>A Digital Logic Simulator</h2>
+            <h2>Register now!</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div id="firebaseui-auth-container"></div>
+            <div id="loader">Loading...</div>
+            <script src="../BackEnd/firebase.js"></script>
+            <script src="../BackEnd/login.js"></script>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-md-12 text-center">
+            <form class="form justify-content-center">
+              <div class="form-group">
+                <label for="exampleInputFirstname1">Firstname</label>
+                <input type="text" class="form-control" id="exampleInputFirstname1" aria-describedby="emailHelp" placeholder="Enter your firstname">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputLastname1">Lastname</label>
+                <input type="text" class="form-control" id="exampleInputLastname1" aria-describedby="emailHelp" placeholder="Enter your lastname">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email@example.com">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="**********">
+              </div>
+              <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <div id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <!-- <img src="../images/test.GIF" alt="Test GIF"> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="page-footer font-small">
+    <div class="container-fluid text-center text-md-left">
+      <div class="row">
+        <div class="col-md-6 mt-md-0 mt-3">
+          <h5 class="text-uppercase">CS/SE 319</h5>
+          <p>Group 13 Project</p>
+        </div>
+        <hr class="clearfix w-100 d-md-none pb-3">
+        <div class="col-md-3 mb-md-0 mb-3">
+          <h5 class="text-uppercase">Iowa State University</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://canvas.iastate.edu">Canvas</a>
+            </li>
+            <li>
+              <a href="http://cymail.iastate.edu">CyMail</a>
+            </li>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-md-0 mb-3">
+          <h5 class="text-uppercase">Help</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://www.w3schools.com/">w3schools</a>
+            </li>
+            <li>
+              <a href="http://stackoverflow.com">Stack Overflow</a>
+            </li>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> 281++</a>
+    </div>
+  </footer>
+</body>
+
+</html>

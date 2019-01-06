@@ -57,6 +57,8 @@ var selectedComponent = null;
 let selectedNode = null;
 let currentWire = null;
 let dummyNode = null;
+let mouseXOffset = 0;
+let mouseYOffset = 0;
 
 function mousePressed() {
 	NODE_SELECTED = false;
@@ -74,18 +76,24 @@ function mousePressed() {
 						currentWire = new Wire(selectedNode, dummyNode); // create wire 0 dimension wire
 						currentWire.nodeA = selectedNode;
 						wires.push(currentWire);
-						// console.log(wires);
-						// console.log(selectedNode);
 					}
 				}
 				COMPONENT_SELECTED = componentList[i].isSelected(mouseX, mouseY);
 				if (COMPONENT_SELECTED && !NODE_SELECTED) {
 					selectedComponent = componentList[i];
-					console.log("selected!");
+					let hitbox = selectedComponent.getHitBoxVerts();
+					selectionBox = [hitbox[0].x, hitbox[0].y, hitbox[1].x - hitbox[0].x, hitbox[1].y - hitbox[0].y];
+					// console.log("selected!");
+					mouseXOffset = mouseX - (selectedComponent.x);
+					mouseYOffset = mouseY - (selectedComponent.y);
 					if (selectedComponent instanceof Input) {
 						if (selectedComponent.isStateSelected(mouseX, mouseY)) selectedComponent.state = !selectedComponent.state;
 					}
 					break;
+				}
+				if (!COMPONENT_SELECTED && !NODE_SELECTED) {
+					selectionBox = null;
+					selectedComponent = null;
 				}
 			}
 		} else {
@@ -100,6 +108,7 @@ panScreen = function(mx, my) {
 	let dy = my - mousePt.y;
 	origin.setPoint(origin.x + dx, origin.y + dy);
 	mousePt.setPoint(mx, my);
+	// redraw();
 }
 
 function mouseDragged() {
@@ -112,25 +121,37 @@ function mouseDragged() {
 				hitBoxVerts = selectedComponent.getHitBoxVerts();
 
 				let snappedXY = snapToGrid(
-					mouseX - (hitBoxVerts[1].x - hitBoxVerts[0].x)/5 - grid.getOrigin().x,
-					mouseY - (componentHeight = hitBoxVerts[1].y - hitBoxVerts[0].y)/2 - grid.getOrigin().y
+					// mouseX - (hitBoxVerts[1].x - hitBoxVerts[0].x)/5 - grid.getOrigin().x,
+					// mouseY - (componentHeight = hitBoxVerts[1].y - hitBoxVerts[0].y)/2 - grid.getOrigin().y
+					mouseX - mouseXOffset,
+					mouseY - mouseYOffset
 				);
 
+				console.log(mouseX - mouseXOffset);
+				console.log(mouseY - mouseYOffset);
+
 				selectedComponent.setXY(snappedXY[0], snappedXY[1]);
+				selectionBox = [hitBoxVerts[0].x, hitBoxVerts[0].y, hitBoxVerts[1].x - hitBoxVerts[0].x, hitBoxVerts[1].y - hitBoxVerts[0].y];
 			} else if (NODE_SELECTED) {
 				selectedNode = null;
 				currentWire.nodeB.x = mouseX;
 				currentWire.nodeB.y = mouseY;
 			}
+			// redraw();
 		} else {
 			panScreen(mouseX, mouseY);
+			let hitbox = selectedComponent.getHitBoxVerts();
+			selectionBox = [hitbox[0].x, hitbox[0].y, hitbox[1].x - hitbox[0].x, hitbox[1].y - hitbox[0].y];
 		}
 	}
 }
 
 function mouseReleased() {
 	document.getElementById("workspacediv").style.cursor="auto";
-	selectedComponent = null; // after we're done dragging, nothing is selected
+	if (selectedComponent != null) {
+		let hitbox = selectedComponent.getHitBoxVerts();
+		selectionBox = [hitbox[0].x, hitbox[0].y, hitbox[1].x - hitbox[0].x, hitbox[1].y - hitbox[0].y];
+	}
 	for (i = 0; i < componentList.length; i++) {
 		for (let j=0; j < componentList[i].nodes.length; j++) {
 			if (componentList[i].nodes[j].isOverNode(mouseX, mouseY)) {

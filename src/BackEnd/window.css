@@ -95,30 +95,6 @@ html, body {
 	grid-template-rows: 1fr
 }
 
-#title {
-	margin: 0.75em 0;
-	text-decoration: none;
-	font-family: 'Raleway';
-	color: #f1f1f1;
-	background: none;
-	font-size: 1.5em;
-	border: none;
-	text-align: center;
-}
-#back-arrow {
-	background: none;
-	border: none;
-	color: #a1a1a1;
-	cursor: pointer;
-	position: absolute;
-	left: 0;
-	padding: 1em;
-}
-#back-arrow:hover {
-	color: #f1f1f1;
-	transition: 0.3s;
-}
-
 .sidenav {
     height: 100%;
     width: 0;
@@ -197,7 +173,6 @@ html, body {
 	}
 	.component-btn {width: 35px;}
 	#main-wrapper {grid-template-columns: minmax(200px, 1fr) 4fr;};
-	#back-arrow {font-size: 15px;}
 }
 
 @media screen and (max-width: 990px) {

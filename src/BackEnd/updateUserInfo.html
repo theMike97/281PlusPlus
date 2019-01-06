@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- for this to work you need to load verifyUser.html and also have verifyUser.js  -->
+<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+<script src = "firebase.js"></script>
+<script src = "projects.js"></script>
+
+</head>
+<body>
+
+<h1>Changing user Info.</h1>
+<p id="demo"></p>
+       <div id="firebaseui-auth-container"></div>
+User Name<input id="userName" type="text">
+User Email<input id="userEmail" type="text">
+      <input onClick="updateUser(document.getElementById('userName').value,document.getElementById('userEmail').value)" type="button" id="Load Project" name="Load Project" value="Update Info" />
+    </p>
+	<input onClick="resetPassword()" type="button" id="Load Project" name="Load Project" value="PW Reset" />
+<<<<<<< .merge_file_a03736
+	<p>
+		<input onClick="addUser(timmy, time@tim.tim, password)" type="button" id="Load Project" name="Load Project" value="addUser" />
+				<input onClick="signOut()" type="button" id="Load Project" name="Load Project" value="addUser" />
+	
+	</p>
+=======
+<p>	
+	User Name<input id="userName2" type="text">
+User Email<input id="userEmail2" type="text">
+User Password<input id="userPassword2" type="text">
+		<input onClick="addUser(document.getElementById('userName2').value, document.getElementById('userEmail2').value, document.getElementById('userPassword2').value)" type="button" id="Load Project" name="Load Project" value="Add New User" />
+</p>	
+	
+>>>>>>> .merge_file_a07576
+<script>
+function updateUser(userName, userEmail){
+var user = firebase.auth().currentUser;
+	// Prompt the user to re-provide their sign-in credentials
+	user.updateProfile({
+	  displayName: userName,
+	}).then(function() {
+	   // Update successful.
+	  alert(user.displayName);
+	}).catch(function(error) {
+	  // An error happened.
+	  alert("did not set user name");
+	});
+	user = firebase.auth().currentUser;
+	user.updateEmail(userEmail).then(function() {
+	  // Update successful.
+	  	   alert(user.email);
+	}).catch(function(error) {
+	  // An error happened.
+	  alert("DID not set email");
+	});
+
+			setTimeout(function() { window.location.href = 'Main1.html';}, 1000);	
+}
+
+</script>
+</body>
+</html>

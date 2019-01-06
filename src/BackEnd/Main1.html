@@ -8,35 +8,28 @@
     <link rel="stylesheet" href="window.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/segment7" type="text/css"/> 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
 
     <!-- Custom Javascript -->
+	<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+	<script src = "firebase.js"></script>
+	<!-- <script src = "login.js"></script> -->
     <script src="js/workspace.js" type="text/javascript"></script>
     <script src="js/grid.js" type="text/javascript"></script>
     <script src="js/component.js" type="text/javascript"></script>
     <script src="js/globals.js" type="text/javascript"></script>
     <script src="js/node.js" type="text/javascript"></script>
-    <script src="js/node.js" type="text/javascript"></script>
     <script src="js/wire.js" type="text/javascript"></script>
-    <script src="js/parser.js" type="text/javascript"></script>
 
     <!-- P5*JS libs -->
     <script src="js/libs/p5.js" type="text/javascript"></script>
     <!-- I dont want to use p5 DOM libraries because they are SLOOWWWW -->
-    <!-- <script src="js/libs/p5.dom.js" type="text/javascript"></script> -->
-    <!-- JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <!-- Back End JS -->
-    <script src="BackEnd/projects.js" type="text/javascript"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
-	<script src = "BackEnd/firebase.js"></script>
-	<script src = "BackEnd/login.js"></script>
+    <script src="js/libs/p5.dom.js" type="text/javascript"></script>
+	<script src = "projects.js"></script>
 
 
 </head>
 <body>
-
 	<div id="mySidenav" class="sidenav">
   		<button class="closebtn" id="nav" onclick="closeRightMenu()">&times;</button>
   		<button class="collapsible" id="nav">Inputs</button>
@@ -59,10 +52,7 @@
 	<div id="main-wrapper">
 		<div class="component-panel">
 			<div id="component-label">
-				<button class="material-icons" id="back-arrow" onclick="window.location.href='./Projects/Projects.html'">keyboard_backspace</button>
-				<div>
-					<input id="title" size="10" value="Untitled"></input>
-				</div>
+				<h2>2 8 1 + +</h2>
 			</div>
 			<div id="components">
 				<button class="collapsible" onclick="change('gatesarrow')">Gates <scan id="gatesarrow" style="float: right">&#9662;</scan></button>
@@ -88,14 +78,13 @@
 					<input type="image" src="res/images/clock_us.png" class="component-btn" id="clock" alt="Clock" onclick="selectComponent(this.id, COMPONENT)"></input>
 				</div>
 				
-				<!-- <button class="collapsible" onclick="change('connarrow')">Buffers and Text<scan id="connarrow" style="float: right">&#9662;</scan></button>
+				<button class="collapsible" onclick="change('connarrow')">Buffers and Text<scan id="connarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
 					<button class="component-btn" id="buffer" alt="Buffer" onclick="selectComponent(this.id, COMPONENT)">Buffer</button>
 					<button class="component-btn">Tri-state Buffer</button>
-					<button class="component-btn">Text</button> 
 				</div>
 				
-				<!-- <button class="collapsible" onclick="change('muxdarrow')">Mux and Decoder<scan id="muxdarrow" style="float: right">&#9662;</scan></button>
+				<button class="collapsible" onclick="change('muxdarrow')">Mux and Decoder<scan id="muxdarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
 					<button class="component-btn">2:1 Mux</button>
 					<button class="component-btn">4:2 Mux</button>
@@ -129,7 +118,7 @@
 				<button class="collapsible" onclick="change('customarrow')">Custom Components<scan id="customarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
 					<p>No custom components</p>
-				</div> -->
+				</div>
 			</div>
 		</div>
 		<div class="main-panel">
@@ -137,8 +126,13 @@
 				<button class="toolbar-btn" id="select-btn" onclick="COMPONENT=SELECT">Select</button>
 				<button class="toolbar-btn" id="pan-btn" onclick="panSelected=!panSelected">Pan</button>
 				<button class="toolbar-btn" id="debug-btn" onclick="openRightMenu()">Debug</button>
-				<button class="toolbar-btn" id="save-btn" onclick="saveString()">Save</button>
 				<button class="toolbar-btn" onclick="window.open('https://github.com/trandrew1023/F18HackISU/blob/master/README.md')">Help</button>
+				<button class="toolbar-btn" id="debug-btn" onclick="window.location.href = 'LoadProject.html'">Load</button>
+				<button class="toolbar-btn" id="debug-btn" onclick="window.location.href = 'SaveProject.html'">Save</button>
+				<button class="toolbar-btn" id="debug-btn" onclick="window.location.href = 'verifyUser.html'">Update ACC</button>
+				<button class="toolbar-btn" id="debug-btn" onclick="resetPassword()">RS PW</button>
+				<input onClick="addUser('timmy', 'add@user.com', 'password')" type="button" id="Load Project" name="Load Project" value="addUser" />
+				<button class="toolbar-btn" id="debug-btn" onclick="signOut()">RS PW</button>
 			</div>
 			<div id="workspacediv">
 				<!-- sole purpose is to provide a container for the canvas in p5 -->
@@ -147,6 +141,20 @@
 	</div>
 
 <script>
+
+function resetPassword(){
+	// alert("trying password reseet");
+	firebase.auth().sendPasswordResetEmail(
+    'user@example.com')
+    .then(function() {
+      alert("WORKED?????");
+    })
+    .catch(function(error) {
+      // Error occurred. Inspect error.code.
+    });
+	
+}
+
 let coll = document.getElementsByClassName("collapsible");
 let tools = document.getElementsByClassName("toolbar-btn");
 let comps = document.getElementsByClassName("component-btn");
@@ -309,13 +317,6 @@ function selectComponent(id, old) {
 			}
 			COMPONENT = CLOCK_IO;
 			break;
-		case "buffer":
-			if (old == BUFF_CONN) {
-				COMPONENT = SELECT;
-				break;
-			}
-			COMPONENT = BUFF_CONN;
-			break;
 		default:
 			COMPONENT = SELECT;
 			break;
@@ -327,42 +328,11 @@ document.onkeydown = function(evt) {
     	console.log("escape key");
 		deselectAllComponents();
 		panSelected = false;
-		selectedComponent = null;
-		selectionBox = null;
     }
     if (evt.keyCode == 16) {
     	console.log("shift key down");
     	shift = 1;
-    }
-    if (evt.keyCode == 46) {
-    	console.log(selectedComponent);
-    	let index = -1;
-    	// console.log(componentList);
-    	for (let i = 0; i < componentList.length; i++) {
-    		if (componentList[i] == selectedComponent) {
-    			index = i;
-    			break;
-    		}
-    		// console.log(componentList[i]);
-    	}
-    	console.log(index);
-    	if (index > -1) {
-    		for (let i = 0; i < wires.length; i++) { // search wires for connections to component
-    			for (let j = 0; j < selectedComponent.nodes.length; j++) {
-    				if (wires[i].nodeA == selectedComponent.nodes[j] || wires[i].nodeB == selectedComponent.nodes[j]) {
-    					wires.splice(i, 1);
-    					i--;
-    					break;
-    				}
-    			}
-    		}
-    		componentList.splice(index, 1);
-    	}
-    	selectedComponent = null;
-    	selectionBox = null;
-    	COMPONENT_SELECTED = false;
-    	NODE_SELECTED = false;
-    }
+    } 
 };
 document.onkeyup = function(evt) {
 	if (evt.keyCode == 16) {
@@ -370,25 +340,6 @@ document.onkeyup = function(evt) {
 		shift = 0;
 	}
 }
-$(document).ready(function(){
-    $("canvas").dblclick(function(){
-    	for (let i = 0; i < componentList.length; i++) {
-    		if (componentList[i] instanceof Clock && componentList[i].isSelected(mouseX, mouseY)) {
-    			let speed = prompt("Enter Clock speed (millis)", "500ms");
-    			if (speed != null) {
-    				let ispeed = parseInt(speed, 10);
-    				console.log(ispeed);
-    				if (isNaN(ispeed)) {
-    					alert("Clock Speed is invalid.  Setting to 500ms");
-    					componentList[i].timer = 500;
-    				} else {
-    					componentList[i].timer = ispeed;
-    				}
-    			}
-    		}
-    	}
-    });
-});
 </script>
 
 </body>

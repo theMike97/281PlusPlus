@@ -1,0 +1,85 @@
+html, body {
+	font-family: 'Raleway', sans-serif !important;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+/* navbar */
+.navbar-default{
+	background: #11111a;
+}
+.navbar-brand {
+	color: white;
+}
+.navbar-brand:hover {
+	color: #aaa;
+}
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.navbar li a {
+  display: block;
+  color: #aaa;
+  text-align: center;
+  padding: 14px 16px;
+	text-decoration: none;
+}
+.navbar li a:hover {
+  color: #f1f1f1;
+}
+
+ /* main */
+.home {
+	background-image: linear-gradient(to left, #f1f1f1, gray);
+	position: relative;
+	text-align: center;
+	overflow: hidden;
+}
+.home h1 {
+	text-align: center;
+}
+.home h3 {
+	text-align: center;
+	color: white;
+}
+.home .register {
+	background-image: linear-gradient(to left, rgba(0,0,0,.7), rgba(0,0,0,.9));
+	padding:20px 0;
+    padding-top: 20px;
+    padding-right: 0px;
+    padding-bottom: 20px;
+    padding-left: 0px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+.home button {
+	-webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+		border-radius: 12px;
+		background-color: red;
+}
+.home button:hover {
+	background-color: green;
+  color: white;
+}
+
+.form-group {
+	width: auto;
+}
+
+/* before about */
+.before .col-sm-12 h3 {
+	text-align: center;
+}
+
+/* about */
+.about .container {
+	display:inline-flex;
+	justify-content: center;
+}

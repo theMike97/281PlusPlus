@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
+<script src = "firebase.js"></script>
+<script src = "login.js"></script>
+<script src = "projects.js"></script>
+
+</head>
+<body>
+
+<h1>Welcome to where you can save a project (basic version)</h1>
+		<p>	
+		<p>Project Name<input id="projectName" type="text">
+		String to Save<input id="stringMessage" type="text">
+		<input onClick="saveProject(document.getElementById('projectName').value,document.getElementById('stringMessage').value)" type="button" id="saveProject" name="saveProject" value="save project" />
+	</p></p>
+</body>
+	<!-- <input type="text" id="group" name="group" value=" "><br> -->
+	<!-- <p> -->
+		<!-- <input onClick="changeGroup(77)" type="button" i="changeGroup" name="changeGroup" value="change group" /> -->
+	<!-- </p> -->
+</html>

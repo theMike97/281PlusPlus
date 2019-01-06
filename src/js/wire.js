@@ -8,13 +8,24 @@ function Wire(startNode, endNode) {
 
 	this.updateState = function() {
 		if (this.nodeA.direction == OUT) {
-			this.state = this.nodeA.state;
-			this.nodeB.state = this.state;
-		} else {
-			this.state = this.nodeB.state;
-			this.nodeA.state = this.state;
+			if (this.nodeB.direction == IN) {
+				this.state = this.nodeA.state;
+				this.nodeB.state = this.state;
+			} else { 
+				this.state = this.nodeA.state || this.nodeB.state;
+				this.nodeA.state = this.state;
+				this.nodeB.state = this.state;
+			}
+		} else if (this.nodeA.direction == IN) {
+			if (this.nodeB.direction == OUT) {
+				this.state = this.nodeB.state;
+				this.nodeA.state = this.state;
+			} else {
+				this.state = this.nodeA.state || this.nodeB.state;
+				this.nodeA.state = this.state;
+				this.nodeB.state = this.state;	
+			}
 		}
-
 	}
 
 	this.getDrawingDimens = function() {
@@ -31,6 +42,7 @@ function Segment(startPt, endPt) {
 	this.startPt = startPt;
 	this.endPt = endPt;
 
+	// This will be helpful for selecting a wire segment to move around
 	this.getHitBoxVerts = function() {
 		// TODO
 	}

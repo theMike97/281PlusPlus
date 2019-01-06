@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+
+
+
+
+</head>
+<body>
+
+<h1>Welcome to our mixed horror</h1>
+<script src = "firebase.js"></script>
+<script src = "login.js"></script>
+<script src = "projects.js"></script>
+
+
+		<p>
+		<text>To Do:</text>
+      <input onClick="listSavedProjects()" type="button" id="List" name="list" value="list saved projects" />
+    </p>
+	<p>
+		<text>Under Construction:</text>
+      <input onClick="loadProject()" type="button" id="submit1" name="check1" value="load project" />
+    </p>
+
+	
+
+		<p>
+				
+		<input id="stringMessage" type="text">
+		<input id="projectName" type="text">
+	
+		<input onClick="saveProject(document.getElementById('stringMessage').value,document.getElementById('projectName').value)" type="button" is="saveProject" name="saveProject" value="save project" />
+	</p>
+</body>
+	<!-- <input type="text" id="group" name="group" value=" "><br> -->
+	<!-- <p> -->
+		<!-- <input onClick="changeGroup(77)" type="button" i="changeGroup" name="changeGroup" value="change group" /> -->
+	<!-- </p> -->
+
+
+</html>

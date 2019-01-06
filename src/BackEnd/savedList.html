@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+<script src = "firebase.js"></script>
+<script src = "login.js"></script>
+<script src = "projects.js"></script>
+    <p>281++ Logic Simulator</p>
+
+<!-- Stuff that i added -->
+
+</head>
+<body>
+<script>
+listProjects();
+
+
+function listProjects(){
+	var DataBaseRef = firebase.database().ref();
+	var user = "none";
+	firebase.auth().onAuthStateChanged(function(user) {
+	  if (user) {
+		user = firebase.auth().currentUser;
+		//var name = user.displayName; //this will display the current user name
+		uid = user.uid
+		var string="";
+		var totalSaves=0;
+		var toPrint=0;
+		var totalPrinted=0;
+		var delayInMilliseconds = 750; //0.75 second
+		DataBaseRef.child("User").child(uid).child("Saved").once('value', function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+			totalSaves=totalSaves+1;
+			  });
+			  toPrint=totalSaves/2;
+		});
+		
+		setTimeout(function() {
+			DataBaseRef.child("User").child(uid).child("Saved").once('value', function(snapshot) {
+			  snapshot.forEach(function(childSnapshot) {
+				var childKey = childSnapshot.key;
+				var childData = childSnapshot.val();
+				 if(totalPrinted<toPrint){
+				string=string+childData+"<br />";
+				}
+				totalPrinted=totalPrinted+1;
+			  });
+			});
+			setTimeout(function() {document.getElementById("demo").innerHTML=string;}, delayInMilliseconds);
+		}, delayInMilliseconds);
+
+	  }
+	});
+}
+</script>
+</body>
+</html>
+ 

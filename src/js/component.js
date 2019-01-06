@@ -29,6 +29,10 @@ Component.prototype.getXY = function() {
 Component.prototype.getNodes = function() {
 	return this.nodes;
 }
+Component.prototype.isSelected = function(x, y) {
+ 	let hitBoxVerts = this.getHitBoxVerts();
+ 	return (x > hitBoxVerts[0].x && y > hitBoxVerts[0].y) && (x < hitBoxVerts[1].x && y < hitBoxVerts[1].y);
+}
 
 /*
  * gates here
@@ -97,7 +101,7 @@ var AndGate = function(x, y) {
 inherits(AndGate, Gate);
 AndGate.prototype.updateOutput = function() {
 	this.nodes[2].state = this.nodes[0].state && this.nodes[1].state;
-	// console.log(this.nodes[2].state);
+	// console.log(this.nodes[1].state);
 }
 AndGate.prototype.getHitBoxVerts = function() {
 	topLeft = new Point(origin.x + this.x - grid.getGridSize(), origin.y + this.y);
@@ -192,7 +196,7 @@ var XorGate = function(x, y) {
 }
 inherits(XorGate, Gate);
 XorGate.prototype.updateOutput = function() {
-	this.nodes[2].state = !(this.nodes[0].state ? !this.nodes[1].state : this.nodes[1].state);
+	this.nodes[2].state = this.nodes[0].state ? !this.nodes[1].state : this.nodes[1].state;
 }
 XorGate.prototype.isSelected = function(x, y) {
 	let hitBoxVerts = this.getHitBoxVerts();
@@ -343,8 +347,8 @@ var XnorGate = function(x, y) {
 	this.nodes.push(new Node(origin.x + 5*grid.getGridSize() + this.x, origin.y + 2*grid.getGridSize() + this.y, OUT)); // last is always output node
 }
 inherits(XnorGate, Gate);
-XorGate.prototype.updateOutput = function() {
-	this.nodes[2].state = this.nodes[0].state ? !this.nodes[1].state : this.nodes[1].state;
+XnorGate.prototype.updateOutput = function() {
+	this.nodes[2].state = !(this.nodes[0].state ? !this.nodes[1].state : this.nodes[1].state);
 }
 XnorGate.prototype.isSelected = function(x, y) {
 	let hitBoxVerts = this.getHitBoxVerts();
@@ -452,7 +456,7 @@ Input.prototype.updateOutput = function() {
 
 // Output LED
 var Led = function(x, y) {
-	Input.super_.call(this, x, y);
+	Led.super_.call(this, x, y);
 
  	this.nodes.push(new Node(origin.x + this.x, origin.y + this.y + grid.getGridSize(), IN));
 }
@@ -480,4 +484,210 @@ Led.prototype.updateNodes = function() {
 }
 Led.prototype.updateOutput = function() {
 	this.state = this.nodes[0].state;
+}
+
+// 7 Segment Display
+var SevenSeg = function(x, y) {
+	SevenSeg.super_.call(this, x, y);
+
+	this.output = "0";
+	this.nodes.push(new Node(origin.x + this.x - grid.getGridSize(), origin.y + this.y + 7*grid.getGridSize(), IN));
+	this.nodes.push(new Node(origin.x + this.x - grid.getGridSize(), origin.y + this.y + 5*grid.getGridSize(), IN));
+	this.nodes.push(new Node(origin.x + this.x - grid.getGridSize(), origin.y + this.y + 3*grid.getGridSize(), IN));
+	this.nodes.push(new Node(origin.x + this.x - grid.getGridSize(), origin.y + this.y + grid.getGridSize(), IN));
+}
+inherits(SevenSeg, IO);
+SevenSeg.prototype.getHitBoxVerts = function() {
+	let topLeft = new Point(origin.x + this.x, origin.y + this.y);
+	let bottomRight = new Point(origin.x + this.x + 6*grid.getGridSize(), origin.y + this.y + 8*grid.getGridSize());
+	return [topLeft, bottomRight];
+}
+SevenSeg.prototype.getDrawingDimens = function() {
+	let dimens = [
+		// body
+		[origin.x + this.x, origin.y + this.y, origin.x + this.x + 6*grid.getGridSize(), origin.y + this.y],
+		[origin.x + this.x + 6*grid.getGridSize(), origin.y + this.y, origin.x + this.x + 6*grid.getGridSize(), origin.y + this.y + 8*grid.getGridSize()],
+		[origin.x + this.x + 6*grid.getGridSize(), origin.y + this.y + 8*grid.getGridSize(), origin.x + this.x, origin.y + this.y + 8*grid.getGridSize()],
+		[origin.x + this.x, origin.y + this.y + 8*grid.getGridSize(), origin.x + this.x, origin.y + this.y],
+		// text
+		[this.output, origin.x + this.x + 3.0625*grid.getGridSize(), origin.y + this.y + 4.5*grid.getGridSize()],
+		// nodes
+		[origin.x + this.x, origin.y + this.y + grid.getGridSize(), origin.x + this.x - grid.getGridSize(), origin.y + this.y + grid.getGridSize()],
+		[origin.x + this.x, origin.y + this.y + 3*grid.getGridSize(), origin.x + this.x - grid.getGridSize(), origin.y + this.y + 3*grid.getGridSize()],
+		[origin.x + this.x, origin.y + this.y + 5*grid.getGridSize(), origin.x + this.x - grid.getGridSize(), origin.y + this.y + 5*grid.getGridSize()],
+		[origin.x + this.x, origin.y + this.y + 7*grid.getGridSize(), origin.x + this.x - grid.getGridSize(), origin.y + this.y + 7*grid.getGridSize()]
+
+	];
+	return dimens;
+}
+SevenSeg.prototype.updateNodes = function() {
+	this.nodes[0].x = origin.x + this.x - grid.getGridSize();
+	this.nodes[0].y = origin.y + this.y + 7*grid.getGridSize(); // bottom (LSB)
+
+	this.nodes[1].x = origin.x + this.x - grid.getGridSize();
+	this.nodes[1].y = origin.y + this.y + 5*grid.getGridSize();
+
+	this.nodes[2].x = origin.x + this.x - grid.getGridSize();
+	this.nodes[2].y = origin.y + this.y + 3*grid.getGridSize();
+
+	this.nodes[3].x = origin.x + this.x - grid.getGridSize();
+	this.nodes[3].y = origin.y + this.y + grid.getGridSize(); // top (MSB)
+}
+SevenSeg.prototype.updateOutput = function() {
+	if (!this.nodes[0].state && !this.nodes[1].state && !this.nodes[2].state && !this.nodes[3].state) this.output = "0";
+	else if (this.nodes[0].state && !this.nodes[1].state && !this.nodes[2].state && !this.nodes[3].state) this.output = "1";
+	else if (!this.nodes[0].state && this.nodes[1].state && !this.nodes[2].state && !this.nodes[3].state) this.output = "2";
+	else if (this.nodes[0].state && this.nodes[1].state && !this.nodes[2].state && !this.nodes[3].state) this.output = "3";
+	else if (!this.nodes[0].state && !this.nodes[1].state && this.nodes[2].state && !this.nodes[3].state) this.output = "4";
+	else if (this.nodes[0].state && !this.nodes[1].state && this.nodes[2].state && !this.nodes[3].state) this.output = "5";
+	else if (!this.nodes[0].state && this.nodes[1].state && this.nodes[2].state && !this.nodes[3].state) this.output = "6";
+	else if (this.nodes[0].state && this.nodes[1].state && this.nodes[2].state && !this.nodes[3].state) this.output = "7";
+	else if (!this.nodes[0].state && !this.nodes[1].state && !this.nodes[2].state && this.nodes[3].state) this.output = "8";
+	else if (this.nodes[0].state && !this.nodes[1].state && !this.nodes[2].state && this.nodes[3].state) this.output = "9";
+	else if (!this.nodes[0].state && this.nodes[1].state && !this.nodes[2].state && this.nodes[3].state) this.output = "A";
+	else if (this.nodes[0].state && this.nodes[1].state && !this.nodes[2].state && this.nodes[3].state) this.output = "B";
+	else if (!this.nodes[0].state && !this.nodes[1].state && this.nodes[2].state && this.nodes[3].state) this.output = "C";
+	else if (this.nodes[0].state && !this.nodes[1].state && this.nodes[2].state && this.nodes[3].state) this.output = "D";
+	else if (!this.nodes[0].state && this.nodes[1].state && this.nodes[2].state && this.nodes[3].state) this.output = "E";
+	else if (this.nodes[0].state && this.nodes[1].state && this.nodes[2].state && this.nodes[3].state) this.output = "F";
+}
+
+var Vcc = function(x, y) {
+	Vcc.super_.call(this, x, y);
+
+	this.nodes.push(new Node(origin.x + x + grid.getGridSize(), origin.y + y + 2*grid.getGridSize(), OUT));
+	this.nodes.state = true;
+}
+inherits(Vcc, IO);
+Vcc.prototype.getHitBoxVerts = function() {
+	let topLeft = new Point(origin.x + this.x + 0.5*grid.getGridSize(), origin.y + this.y + 0.5*grid.getGridSize());
+	let bottomRight = new Point(origin.x + this.x + 1.5*grid.getGridSize(), origin.y + this.y + 2*grid.getGridSize());
+	return [topLeft, bottomRight];
+}
+Vcc.prototype.getDrawingDimens = function() {
+	let dimens = [
+		//body
+		[origin.x + this.x + grid.getGridSize(), origin.y + this.y + 0.5*grid.getGridSize(), origin.x + this.x + 0.5*grid.getGridSize(), origin.y + this.y + grid.getGridSize()],
+		[origin.x + this.x + 0.5*grid.getGridSize(), origin.y + this.y + grid.getGridSize(), origin.x + this.x + 1.5*grid.getGridSize(), origin.y + this.y + grid.getGridSize()],
+		[origin.x + this.x + 1.5*grid.getGridSize(), origin.y + this.y + grid.getGridSize(), origin.x + this.x + grid.getGridSize(), origin.y + this.y + 0.5*grid.getGridSize()],
+		// node
+		[origin.x + this.x + grid.getGridSize(), origin.y + this.y + grid.getGridSize(), origin.x + this.x + grid.getGridSize(), origin.y + this.y + 2*grid.getGridSize()]
+	];
+	return dimens;
+}
+Vcc.prototype.updateNodes = function() {
+	this.nodes[0].x = origin.x + this.x + grid.getGridSize();
+	this.nodes[0].y = origin.y + this.y + 2*grid.getGridSize();
+}
+Vcc.prototype.updateOutput = function() {
+	this.nodes[0].state = true;
+}
+
+// Ground
+var Gnd = function(x, y) {
+	Gnd.super_.call(this, x, y);
+
+	this.nodes.push(new Node(origin.x + x + grid.getGridSize(), origin.y + y, OUT));
+	this.nodes[0].state = false;
+}
+inherits(Gnd, IO);
+Gnd.prototype.getHitBoxVerts = function() {
+	let topLeft = new Point(origin.x + this.x + 0.5*grid.getGridSize(), origin.y + this.y);
+	let bottomRight = new Point(origin.x + this.x + 1.5*grid.getGridSize(), origin.y + this.y + 1.5*grid.getGridSize());
+	return [topLeft, bottomRight];
+}
+Gnd.prototype.getDrawingDimens = function() {
+	let dimens = [
+		// body
+		[origin.x + this.x + 0.5*grid.getGridSize(), origin.y + this.y + grid.getGridSize(), origin.x + this.x + 1.5*grid.getGridSize(), origin.y + this.y + grid.getGridSize()],
+		[origin.x + this.x + 0.7*grid.getGridSize(), origin.y + this.y + 1.25*grid.getGridSize(), origin.x + this.x + 1.3*grid.getGridSize(), origin.y + this.y + 1.25*grid.getGridSize()],
+		[origin.x + this.x + 0.9*grid.getGridSize(), origin.y + this.y + 1.5*grid.getGridSize(), origin.x + this.x + 1.1*grid.getGridSize(), origin.y + this.y + 1.5*grid.getGridSize()],
+		// node
+		[origin.x + this.x + grid.getGridSize(), origin.y + this.y, origin.x + this.x + grid.getGridSize(), origin.y + this.y + grid.getGridSize()]
+	];
+	return dimens;
+}
+Gnd.prototype.updateNodes = function() {
+	this.nodes[0].x = origin.x + this.x + grid.getGridSize();
+	this.nodes[0].y = origin.y + this.y;
+}
+Gnd.prototype.updateOutput = function() {
+	this.nodes[0].state = false;
+}
+
+// Clock
+var Clock = function(x, y) {
+	Clock.super_.call(this, x, y);
+	this.nodes.push(new Node(origin.x + this.x + 5*grid.getGridSize(), origin.y + this.y + 2*grid.getGridSize(), OUT)); // TODO
+	this.timer = 1000; // milliseconds - fasted scaled safe = 100ms
+}
+inherits(Clock, IO);
+Clock.prototype.getHitBoxVerts = function() {
+	let topLeft = new Point(origin.x + this.x, origin.y + this.y);
+	let bottomRight = new Point(origin.x + this.x + 5*grid.getGridSize(), origin.y + this.y + 4*grid.getGridSize());
+	return [topLeft, bottomRight];
+}
+Clock.prototype.getDrawingDimens = function() {
+	let dimens = [
+		// body
+		[origin.x + this.x, origin.y + this.y, origin.x + this.x + 4*grid.getGridSize(), origin.y + this.y],
+		[origin.x + this.x + 4*grid.getGridSize(), origin.y + this.y, origin.x + this.x + 4*grid.getGridSize(), origin.y + this.y + 4*grid.getGridSize()],
+		[origin.x + this.x + 4*grid.getGridSize(), origin.y + this.y + 4*grid.getGridSize(), origin.x + this.x, origin.y + this.y + 4*grid.getGridSize()],
+		[origin.x + this.x, origin.y + this.y + 4*grid.getGridSize(), origin.x + this.x, origin.y + this.y],
+		// inner drawing
+		[origin.x + this.x + grid.getGridSize(), origin.y + this.y + 1.25*grid.getGridSize(), origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y + 1.25*grid.getGridSize()],
+		[origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y + 1.25*grid.getGridSize(), origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y + 2.75*grid.getGridSize()],
+		[origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y + 2.75*grid.getGridSize(), origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + 2.75*grid.getGridSize()],
+		// timer
+		[this.timer + "ms", origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y + 3.5*grid.getGridSize()],
+		// node
+		[origin.x + this.x + 4*grid.getGridSize(), origin.y + this.y + 2*grid.getGridSize(), origin.x + this.x + 5*grid.getGridSize(), origin.y + this.y + 2*grid.getGridSize()]
+	];
+	return dimens;
+}
+Clock.prototype.updateNodes = function() {
+	this.nodes[0].x = origin.x + this.x + 5*grid.getGridSize();
+	this.nodes[0].y = origin.y + this.y + 2*grid.getGridSize();
+}
+Clock.prototype.updateOutput = function() {
+	let toggle = counter.checkTime(millis(), this.timer/2);
+	if (toggle) this.nodes[0].state = !this.nodes[0].state;
+}
+
+// Buffer
+var SBuffer = function(x, y) {
+	SBuffer.super_.call(this, x, y);
+
+	this.nodes.push(new Node(origin.x + x - grid.getGridSize(), origin.y + y + grid.getGridSize(), IN));
+	this.nodes.push(new Node(origin.x + x + 3*grid.getGridSize(), origin.y + y + grid.getGridSize(), OUT));
+
+}
+inherits(SBuffer, Component);
+SBuffer.prototype.getHitBoxVerts = function() {
+	let topLeft = new Point(origin.x + this.x - grid.getGridSize(), origin.y + this.y);
+	let bottomRight = new Point(origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + 2*grid.getGridSize());
+	return [topLeft, bottomRight];
+
+}
+SBuffer.prototype.getDrawingDimens = function() {
+	let dimens = [
+		// body
+		[origin.x + this.x, origin.y + this.y, origin.x + 2*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y],
+		[origin.x + this.x, origin.y + 2*grid.getGridSize()+ this.y, origin.x + 2*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y],
+		[origin.x + this.x, origin.y + 2* grid.getGridSize() + this.y, origin.x + this.x, origin.y + this.y],
+		// nodes
+		[origin.x + this.x, origin.y + this.y + grid.getGridSize(), origin.x + this.x - grid.getGridSize(), origin.y + this.y + grid.getGridSize()],
+		[origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y + grid.getGridSize(), origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + grid.getGridSize()]
+	];
+	return dimens;
+}
+SBuffer.prototype.updateNodes = function() {
+	this.nodes[0].x = origin.x + this.x - grid.getGridSize();
+	this.nodes[0].y = origin.y + this.y + grid.getGridSize();
+
+	this.nodes[1].x = origin.x + this.x + 3*grid.getGridSize(); 
+	this.nodes[1].y = origin.y + this.y + grid.getGridSize();
+}
+SBuffer.prototype.updateOutput = function() {
+	this.nodes[1].state = this.nodes[0].state;
 }
