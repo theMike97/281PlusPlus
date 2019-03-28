@@ -20,8 +20,6 @@ Edge browser uses shortcut Shift+Scroll to move back in browser history so this 
 
 * Andrew Tran
 
-* Alexander Warner
-
 * Justin Worely
 
 ## Contributing
