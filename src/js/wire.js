@@ -34,6 +34,10 @@ function Wire(startNode, endNode) {
 		];
 		return dimens;
 	}
+
+	this.isSelected = function() {
+		// TODO
+	}
 }
 
 // segment.js

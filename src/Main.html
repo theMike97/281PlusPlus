@@ -88,14 +88,14 @@
 					<input type="image" src="res/images/clock_us.png" class="component-btn" id="clock" alt="Clock" onclick="selectComponent(this.id, COMPONENT)"></input>
 				</div>
 				
-				<!-- <button class="collapsible" onclick="change('connarrow')">Buffers and Text<scan id="connarrow" style="float: right">&#9662;</scan></button>
+				<button class="collapsible" onclick="change('connarrow')">Buffers and Text<scan id="connarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
-					<button class="component-btn" id="buffer" alt="Buffer" onclick="selectComponent(this.id, COMPONENT)">Buffer</button>
-					<button class="component-btn">Tri-state Buffer</button>
+					<input type="image" src="res/images/buffer_us.png" class="component-btn" id="buffer" alt="Buffer" onclick="selectComponent(this.id, COMPONENT)"></input>
+					<input type="image" src="res/images/tbuffer_us.png" class="component-btn" id="tbuffer" alt="Tri-State Buffer" onclick="selectComponent(this.id, COMPONENT)"></input>
 					<button class="component-btn">Text</button> 
 				</div>
 				
-				<!-- <button class="collapsible" onclick="change('muxdarrow')">Mux and Decoder<scan id="muxdarrow" style="float: right">&#9662;</scan></button>
+				<button class="collapsible" onclick="change('muxdarrow')">Mux and Decoder<scan id="muxdarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
 					<button class="component-btn">2:1 Mux</button>
 					<button class="component-btn">4:2 Mux</button>
@@ -126,10 +126,19 @@
 					<button class="component-btn">16-bit Shift Register</button>
 				</div>
 
+				<button class="collapsible" onclick="change('adderarrow')">Adders<scan id="adderarrow" style="float: right">&#9662;</scan></button>
+				<div class="component-content">
+					<button class="component-btn">Half Adder</button>
+					<button class="component-btn">Full Adder</button>
+					<button class="component-btn">4-bit Adder</button>
+					<button class="component-btn">8-bit Adder</button>
+					<button class="component-btn">16-bit Adder</button>
+				</div>
+
 				<button class="collapsible" onclick="change('customarrow')">Custom Components<scan id="customarrow" style="float: right">&#9662;</scan></button>
 				<div class="component-content">
 					<p>No custom components</p>
-				</div> -->
+				</div>
 			</div>
 		</div>
 		<div class="main-panel">
@@ -315,6 +324,13 @@ function selectComponent(id, old) {
 				break;
 			}
 			COMPONENT = BUFF_CONN;
+			break;
+		case "tbuffer":
+			if (old == TRI_CONN) {
+				COMPONENT = SELECT;
+				break;
+			}
+			COMPONENT = TRI_CONN;
 			break;
 		default:
 			COMPONENT = SELECT;

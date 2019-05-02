@@ -41,7 +41,6 @@ function draw() {
 	else {
 	    workspace.attachEvent("onmousewheel", MouseWheelHandler);
 	}
-
 	if (selectionBox != null) {
 		let c = color("#0092DB");
 		c._array[3] = 0.2;
@@ -53,8 +52,6 @@ function draw() {
 	grid.drawGrid();
 
 	// draw sample and gate for use later.
-	// let x = 200;
-	// let y = 300;
 	stroke(0);
 
 	if (grid.getGridSize() < 5) {
@@ -69,15 +66,14 @@ function draw() {
 	// draw all gates
 	noFill();
 
-	// // tri state buffer
+	// component test here
+	
+	// let x = 200;
+	// let y = 300;
+
 	// // body
-	// line(origin.x + x, origin.y + y, origin.x + 2*grid.getGridSize() + x, origin.y + grid.getGridSize() + y);
-	// line(origin.x + x, origin.y + 2*grid.getGridSize()+ y, origin.x + 2*grid.getGridSize() + x, origin.y + grid.getGridSize() + y);
-	// line(origin.x + x, origin.y + 2* grid.getGridSize() + y, origin.x + x, origin.y + y);
-	// line(origin.x + x + grid.getGridSize(), origin.y + y + 0.5*grid.getGridSize(), origin.x + x + grid.getGridSize(), origin.y + y);
+
 	// // nodes
-	// line(origin.x + x, origin.y + y + grid.getGridSize(), origin.x + x - grid.getGridSize(), origin.y + y + grid.getGridSize());
-	// line(origin.x + x + 2*grid.getGridSize(), origin.y + y + grid.getGridSize(), origin.x + x + 3*grid.getGridSize(), origin.y + y + grid.getGridSize());
 
 	let component = null;
 	let compDims = null;
@@ -262,6 +258,15 @@ function draw() {
 			// nodes
 			line(compDims[3][0], compDims[3][1], compDims[3][2], compDims[3][3]);
 			line(compDims[4][0], compDims[4][1], compDims[4][2], compDims[4][3]);
+		} else if (component instanceof TBuffer) {
+			// body
+			line(compDims[0][0], compDims[0][1], compDims[0][2], compDims[0][3]);
+			line(compDims[1][0], compDims[1][1], compDims[1][2], compDims[1][3]);
+			line(compDims[2][0], compDims[2][1], compDims[2][2], compDims[2][3]);
+			// nodes
+			line(compDims[3][0], compDims[3][1], compDims[3][2], compDims[3][3]);
+			line(compDims[4][0], compDims[4][1], compDims[4][2], compDims[4][3]);
+			line(compDims[5][0], compDims[5][1], compDims[5][2], compDims[5][3]);
 		}
 
 		component.updateNodes();
@@ -412,9 +417,14 @@ function mouseClicked() {
 						gate = new SBuffer(x, y);
 						componentList.push(gate);
 						break;
+					case TRI_CONN:
+						gate = new TBuffer(x, y);
+						componentList.push(gate);
+						break;
 					default:
 						break;
 				}
+				// console.log(componentList);
 				// redraw();
 			}
 		}

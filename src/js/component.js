@@ -9,6 +9,7 @@ inherits = function(ctor, superCtor) {
 		}
 	});
 };
+
 // base component (always has a position)
 var Component = function(x, y) {
 	this.nodes = [];
@@ -38,6 +39,7 @@ Component.prototype.isSelected = function(x, y) {
  * gates here
  */
 // base gate (always has (at most) 2 inputs)
+// turns out Gate doesn't contain anything different from Component
 var Gate = function(x, y) {
 	Gate.super_.call(this, x, y);
 
@@ -77,7 +79,7 @@ NotGate.prototype.getDrawingDimens = function() {
 		[origin.x + this.x, origin.y + this.y, origin.x + 2*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y],
 		[origin.x + this.x, origin.y + 2*grid.getGridSize()+ this.y, origin.x + 2*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y],
 		[origin.x + this.x, origin.y + 2* grid.getGridSize() + this.y, origin.x + this.x, origin.y + this.y],
-		[origin.x + 2.25*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y, 0.5*grid.getGridSize(),0.5*grid.getGridSize()],
+		[origin.x + 2.25*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y, 0.5*grid.getGridSize(), 0.5*grid.getGridSize()],
 		[origin.x + this.x, origin.y + grid.getGridSize() + this.y, origin.x - grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y],
 		[origin.x + 2.5*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y, origin.x + 3*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y]
 	];
@@ -654,7 +656,7 @@ Clock.prototype.updateOutput = function() {
 	if (toggle) this.nodes[0].state = !this.nodes[0].state;
 }
 
-// Buffer
+// Standard Buffer
 var SBuffer = function(x, y) {
 	SBuffer.super_.call(this, x, y);
 
@@ -690,4 +692,47 @@ SBuffer.prototype.updateNodes = function() {
 }
 SBuffer.prototype.updateOutput = function() {
 	this.nodes[1].state = this.nodes[0].state;
+}
+
+// Tri-State Buffer
+var TBuffer = function(x, y) {
+	TBuffer.super_.call(this, x, y);
+
+	this.nodes.push(new Node(origin.x + x - grid.getGridSize(), origin.y + y + grid.getGridSize(), IN));
+	this.nodes.push(new Node(origin.x + x + 3*grid.getGridSize(), origin.y + y + grid.getGridSize(), OUT));
+	//third node
+	this.nodes.push(new Node(origin.x + x + grid.getGridSize(), origin.y + y, IN));
+
+}
+inherits(TBuffer, Component);
+TBuffer.prototype.getHitBoxVerts = function() {
+	let topLeft = new Point(origin.x + this.x - grid.getGridSize(), origin.y + this.y);
+	let bottomRight = new Point(origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + 2*grid.getGridSize());
+	return [topLeft, bottomRight];
+}
+TBuffer.prototype.getDrawingDimens = function() {
+	let dimens = [
+		// body
+		[line(origin.x + this.x, origin.y + this.y, origin.x + 2*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y)],
+		[line(origin.x + this.x, origin.y + 2*grid.getGridSize() + this.y, origin.x + 2*grid.getGridSize() + this.x, origin.y + grid.getGridSize() + this.y)],
+		[line(origin.x + this.x, origin.y + 2* grid.getGridSize() + this.y, origin.x + this.x, origin.y + this.y)],
+		[line(origin.x + this.x + grid.getGridSize(), origin.y + this.y + 0.5*grid.getGridSize(), origin.x + this.x + grid.getGridSize(), origin.y + this.y)],
+		// nodes
+		[line(origin.x + this.x, origin.y + this.y + grid.getGridSize(), origin.x + this.x - grid.getGridSize(), origin.y + this.y + grid.getGridSize())],
+		[line(origin.x + this.x + 2*grid.getGridSize(), origin.y + this.y + grid.getGridSize(), origin.x + this.x + 3*grid.getGridSize(), origin.y + this.y + grid.getGridSize())],
+	];
+	return dimens;
+}
+TBuffer.prototype.updateNodes = function() {
+	this.nodes[0].x = origin.x + this.x - grid.getGridSize();
+	this.nodes[0].y = origin.y + this.y + grid.getGridSize();
+
+	this.nodes[1].x = origin.x + this.x + 3*grid.getGridSize(); 
+	this.nodes[1].y = origin.y + this.y + grid.getGridSize();
+
+	this.nodes[2].x = origin.x + this.x + grid.getGridSize();
+	this.nodes[2].y = origin.y + this.y;
+}
+TBuffer.prototype.updateOutput = function() {
+	this.nodes[1].state = this.nodes[0].state & this.nodes[2].state;
 }
